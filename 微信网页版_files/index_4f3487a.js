@@ -1395,16 +1395,20 @@ webpackJsonp([1], [function(e, exports, t) {
                 }
                 return n
             }
+            /**
+            * 获取当前window.getSelection()
+            * e 字符串
+             */
             function w(e, t) {
                 var a, n;
                 if (t || y(),
                 window.getSelection) {
                     !t && A ? (a = P,
-                    n = A) : (a = window.getSelection(),
-                    n = a.getRangeAt(0)),
-                    n.deleteContents();
+                    n = A) : (a = window.getSelection(),  // a为getSelection()
+                    n = a.getRangeAt(0)),   // n为range
+                    n.deleteContents(); //range删除内容
                     var i;
-                    if (n.createContextualFragment)
+                    if (n.createContextualFragment) // i为创建documentFrament元素
                         i = n.createContextualFragment(e);
                     else {
                         var o = document.createElement("div");
@@ -1413,18 +1417,18 @@ webpackJsonp([1], [function(e, exports, t) {
                         for (var r, c; r = o.firstChild; )
                             c = i.appendChild(r)
                     }
-                    var s = i.lastChild;
-                    n.insertNode(i),
-                    n.setStartAfter(s),
-                    a.removeAllRanges(),
-                    a.addRange(n);
+                    var s = i.lastChild;    //s为i的最后一个元素
+                    n.insertNode(i), // range插入节点
+                    n.setStartAfter(s), //range设置start
+                    a.removeAllRanges(),    //selection移除allranges
+                    a.addRange(n);  //selection加入range
                     var l = s.offsetTop - 42 + s.offsetHeight - x.offsetHeight;
                     x.scrollTop < l && (x.scrollTop = l)
                 } else
-                    n = t || !A ? document.selection.createRange() : A,
-                    e = e.replace(/</gi, "&lt;").replace(/>/gi, "&gt;"),
-                    n.pasteHTML(e),
-                    n.select()
+                    n = t || !A ? document.selection.createRange() : A,  // n 为A，window.getSelection.getRangeAt(0)
+                    e = e.replace(/</gi, "&lt;").replace(/>/gi, "&gt;"), //将e中的尖括号替换
+                    n.pasteHTML(e), //在指定的文字区域内替换该区域内的文本或者HTML（IE pasteHTML方法）
+                    n.select() //选中
             }
             function S() {
                 window.getSelection && (window.getSelection().getRangeAt(0).insertNode(U),
@@ -1842,6 +1846,9 @@ webpackJsonp([1], [function(e, exports, t) {
                 N(t + (x.innerHTML.replace("<br>", "") ? x.innerHTML : "<br>")),
                 x.scrollTop = 9999
             }),
+            /**
+            * 插入到编辑区域中
+             */
             a.insertToEditArea = function(e, t) {
                 w(e, t),
                 a.editAreaCtn = x.innerHTML
@@ -1982,6 +1989,9 @@ webpackJsonp([1], [function(e, exports, t) {
 , , function(e, exports) {
     !function() {
         "use strict";
+        /**
+         * 表情controller, function里面的代表前面的模块
+         */
         angular.module("Controllers").controller("emojiController", ["$rootScope", "$scope", "$timeout", "emojiFactory", "confFactory", "utilFactory", function(e, t, a, n, i, o) {
             a(function() {
                 t.QQFaceList = n.QQFaceList,
@@ -1990,23 +2000,36 @@ webpackJsonp([1], [function(e, exports, t) {
             }, 100),
             t.index = 1,
             t.RES_PATH = i.RES_PATH,
+            /**
+             * 选择表情
+             * @param {*} e 
+             */
             t.selectEmoticon = function(e) {
                 var a = e.target;
                 if ("A" == a.tagName) {
                     var i = a.innerText || a.textContent
                       , r = a.getAttribute("type");
                     switch (r) {
+                        /**
+                         * QQ表情   如：[微笑]
+                         */
                     case "qq":
                         i = "[" + i + "]",
                         o.browser.msie && o.browser.version < 9 || (i = n.getEmoticonByText(i)),
                         t.insertToEditArea(i);
                         break;
                     case "emoji":
+                        /**
+                         * emoji表情 如： <笑脸>
+                         */
                         i = "<" + i + ">",
                         o.browser.msie && o.browser.version < 9 || (i = n.getEmoticonByText(i)),
                         t.insertToEditArea(i);
                         break;
                     case "Tuzki":
+                        /**
+                         * tuzki表情
+                         */
                         t.sendTuzkiEmoji(n.getMd5ByTuzki(i), i)
                     }
                     e.preventDefault()
@@ -5002,6 +5025,8 @@ webpackJsonp([1], [function(e, exports, t) {
                             return a;
                     return -1
                 },
+                /** 构建表情HTML
+                 */
                 genEmoticonHTML: function(e, t) {
                     return '<img class="' + e + '" text="' + t + (t.indexOf(n.MM_EMOTICON_WEB) > -1 ? "" : n.MM_EMOTICON_WEB) + '" src="' + n.RES_IMG_PLACEHOLDER + '" />'
                 },
@@ -5120,16 +5145,31 @@ webpackJsonp([1], [function(e, exports, t) {
                     }),
                     e = t.transformSpanToImg(e))
                 },
+                /**
+                * 根据文字来查找表情
+                 */
                 getEmoticonById: function(e) {
                     var t = this.EmojiCodeMap[e];
                     return t ? n.genEmoticonHTML("emoji emoji" + e, t) : ""
                 },
+                /**
+                 * 根据文字来获取表情
+                 * @param {*} e 如  [微笑]
+                 */
                 getEmoticonByText: function(e) {
                     var t;
                     if (e.indexOf("<") > -1) {
+                        /** emoji表情
+                         */
                         if (t = this.QQFaceMap[e])
+                            /** 构建表情HTML, t为e在QQFaceMap中的值， 如<笑脸>的值为1f604,
+                              *  返回<img class="emoji emoji1f604" text="" src="XXX"/> 或<img class="emoji emoji1f604" text="_web" src="XXX"/>
+                             */
                             return n.genEmoticonHTML("emoji emoji" + t, this.EmojiCodeMap[t])
                     } else if (t = this.QQFaceMap[e.replace(/\[|\]/g, "")])
+                        /** QQ表情， t为 笑脸
+                        *返回<img class="qqemoji qqemoji笑脸" text="[笑脸]" src="XXX"/> 或<img class="qqemoji qqemoji笑脸" text="[笑脸]_web" src="XXX"/>
+                         */
                         return n.genEmoticonHTML("qqemoji qqemoji" + t, e);
                     return null
                 },
