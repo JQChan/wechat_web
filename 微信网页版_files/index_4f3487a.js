@@ -16,6 +16,9 @@ webpackJsonp([1], [function(e, exports, t) {
     e.exports = t.p + "/static/img/xasUyAI.gif"
 }
 , function(e, exports, t) {
+    // 定义window的ＭＭSource 包括copySwfPath、jplayerSwfPath等swf路径
+    // copySwfPath: "//res.wx.qq.com/a/wx_fed/webwx/res/static/res/1OM7Ut2.swf"
+    // jplayerSwfPath: "//res.wx.qq.com/a/wx_fed/webwx/res/static/res/GIqH2cS.swf"
     window.MMSource = {
         copySwfPath: t(260),
         jplayerSwfPath: t(261)
@@ -37,6 +40,7 @@ webpackJsonp([1], [function(e, exports, t) {
     e.exports = t.p + "/static/res/GIqH2cS.swf"
 }
 , , , , , , , , , , , , , function(e, exports, t) {
+    // 主要module
     angular.module("Controllers", []),
     t(275),
     t(276),
@@ -50,6 +54,7 @@ webpackJsonp([1], [function(e, exports, t) {
     t(286),
     t(287),
     t(288),
+    // 主要module
     angular.module("Services", []),
     t(289),
     t(290),
@@ -72,6 +77,7 @@ webpackJsonp([1], [function(e, exports, t) {
     t(308),
     t(309),
     t(310),
+    // 主要module
     angular.module("Directives", []),
     t(311),
     t(312),
@@ -99,16 +105,24 @@ webpackJsonp([1], [function(e, exports, t) {
     t(334),
     t(335),
     t(336),
+    // 主要module
     angular.module("Filters", []),
     t(338),
     t(339),
     function() {
         "use strict";
-        angular.module("webwxApp", ["ui.router", "ngAnimate", "Services", "Controllers", "Directives", "Filters", "ngDialog", "jQueryScrollbar", "ngClipboard", "exceptionOverride"]).run(["$rootScope", "$state", "$stateParams", function(e, t, a) {
+        // 微信网页版采用了ui-route模块来配置路由，与页面相对应，
+        // 聊天二级页对应'chat' state，
+        // 联系人二级页对应'contact' state,
+        // 公众号二级页对应'read' state。
+        // 使用模块ui.router、 ngAnimate、Services、Controllers、Directives、Filters、ngDialog、jQueryScrollbar、ngClipboard、exceptionOverride
+        angular.module("webwxApp", ["ui.router", "ngAnimate", "Services", "Controllers", "Directives", "Filters", "ngDialog", "jQueryScrollbar", "ngClipboard", "exceptionOverride"])
+        .run(["$rootScope", "$state", "$stateParams", function(e, t, a) {
             e.$state = t,
             e.$stateParams = a
-        }
-        ]).factory("httpInterceptor", ["accountFactory", function(e) {
+        }])
+        // http拦截器
+        .factory("httpInterceptor", ["accountFactory", function(e) {
             return {
                 request: function(t) {
                     if (!t.cache && t.url.indexOf(".html") < 0 && (t.params || (t.params = {}),
@@ -124,14 +138,16 @@ webpackJsonp([1], [function(e, exports, t) {
                     return t
                 }
             }
-        }
-        ]).config(["$sceProvider", "$httpProvider", "$logProvider", "$stateProvider", "$urlRouterProvider", "ngClipProvider", function(e, t, a, n, i, o) {
+        }])
+        .config(["$sceProvider", "$httpProvider", "$logProvider", "$stateProvider", "$urlRouterProvider", "ngClipProvider", function(e, t, a, n, i, o) {
             e.enabled(!1),
             a.debugEnabled(!0),
-            o.setPath(window.MMSource.copySwfPath),
-            t.interceptors.push("httpInterceptor");
+            o.setPath(window.MMSource.copySwfPath), // 设置ngClipProvider扩展的路径
+            t.interceptors.push("httpInterceptor"); //httpProvider加入http拦截器
             var r;
-            n.state("chat", {
+            // stateProvider设置state
+            // 聊天二级页对应'chat' state
+            n.state("chat", {   
                 url: "",
                 params: {
                     userName: ""
@@ -142,16 +158,16 @@ webpackJsonp([1], [function(e, exports, t) {
                             function o() {
                                 var n = a.getContact(e.userName, "", !0);
                                 i.$broadcast("root:statechange"),
-                                t.setCurrentUserName(e.userName),
-                                t.addChatList([n || {
+                                t.setCurrentUserName(e.userName),       //chatFactory设置当前username
+                                t.addChatList([n || {        //chatFactory的chatlist添加联系人
                                     FromUserName: e.userName
                                 }]),
                                 e.userName = ""
                             }
                             if (n.change("navChat:active", !0),
                             e.userName) {
-                                var r = a.getContact(e.userName, "", !0);
-                                r ? o() : a.addBatchgetContact({
+                                var r = a.getContact(e.userName, "", !0);   //根据e.userName获取contactFactory中的联系人
+                                r ? o() : a.addBatchgetContact({    //没有找到联系人则加入contact
                                     UserName: e.userName,
                                     ChatRoomId: ""
                                 }, !0).then(function(e) {
@@ -162,11 +178,13 @@ webpackJsonp([1], [function(e, exports, t) {
                         ]
                     },
                     contentView: {
-                        templateUrl: "contentChat.html",
-                        controller: "contentChatController"
+                        templateUrl: "contentChat.html",    // 聊天使用contentChat.html
+                        controller: "contentChatController" // 聊天使用contentChatController
                     }
                 }
-            }).state("contact", {
+            })
+            // 联系人二级页对应'contact' state
+            .state("contact", {
                 url: "",
                 views: {
                     navView: {
@@ -176,11 +194,13 @@ webpackJsonp([1], [function(e, exports, t) {
                         ]
                     },
                     contentView: {
-                        templateUrl: "contentContact.html",
-                        controller: "contentContactController"
+                        templateUrl: "contentContact.html", // 联系人使用contentContact.html
+                        controller: "contentContactController"  //联系人使用contentContactController
                     }
                 }
-            }).state("read", {
+            })
+             // 公众号二级页对应'read' state
+            .state("read", {
                 url: "",
                 params: {
                     readItem: ""
@@ -217,12 +237,14 @@ webpackJsonp([1], [function(e, exports, t) {
             })
         }
         ]),
+        // 启动代码
         angular.bootstrap(document, ["webwxApp"])
     }()
 }
 , function(e, exports) {
     !function() {
         "use strict";
+        // 异常机制
         location.href.indexOf("dev.web") < 0 ? angular.module("exceptionOverride", []).factory("$exceptionHandler", [function() {
             return function(e, t) {
                 throw window._errorHandler && window._errorHandler(e),
@@ -230,7 +252,33 @@ webpackJsonp([1], [function(e, exports, t) {
             }
         }
         ]) : angular.module("exceptionOverride", []),
-        angular.module("Controllers").controller("appController", ["$rootScope", "$scope", "$timeout", "$log", "$state", "$window", "ngDialog", "mmpop", "appFactory", "loginFactory", "contactFactory", "accountFactory", "chatFactory", "confFactory", "contextMenuFactory", "notificationFactory", "utilFactory", "reportService", "monitorService", "actionTrack", "surviveCheckService", "subscribeMsgService", "stateManageService", function(e, t, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h, M, v, y, b, C, w) {
+        // 全局控制器appController
+        angular.module("Controllers").controller("appController", 
+        [
+            "$rootScope",  // e
+            "$scope",   // t
+            "$timeout", // a
+            "$log", // n
+            "$state", // i
+            "$window", // o
+            "ngDialog", //  r
+            "mmpop", // c
+            "appFactory", //  s
+            "loginFactory", //  l 
+            "contactFactory", // d 
+            "accountFactory", // f 
+            "chatFactory", // u 
+            "confFactory", // m 
+            "contextMenuFactory", // g
+            "notificationFactory", //  p 
+            "utilFactory", // h 
+            "reportService", // M
+            "monitorService", //  v 
+            "actionTrack", // y 
+            "surviveCheckService", // b 
+            "subscribeMsgService", // C
+            "stateManageService", //  w
+        function(e, t, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h, M, v, y, b, C, w) {
             function S() {
                 return d.pickContacts(["friend", "chatroom"], {
                     chatroom: {
@@ -253,16 +301,16 @@ webpackJsonp([1], [function(e, exports, t) {
                 }, 20)
             }
             function N() {
-                t.isLoaded = !0,
+                t.isLoaded = !0,  // $scope
                 t.isUnLogin = !1,
-                M.report(M.ReportType.timing, {
+                M.report(M.ReportType.timing, { // reportService
                     timing: {
                         initStart: Date.now()
                     }
                 }),
-                s.init().then(function(n) {
-                    if (h.log("initData", n),
-                    n.BaseResponse && "0" != n.BaseResponse.Ret)
+                s.init().then(function(n) { // appFactory 初始化
+                    if (h.log("initData", n), // utilFactory
+                    n.BaseResponse && "0" != n.BaseResponse.Ret) //$log
                         return void (l.timeoutDetect(n.BaseResponse.Ret) || (r.openConfirm({
                             className: "default ",
                             templateUrl: "comfirmTips.html",
@@ -281,7 +329,7 @@ webpackJsonp([1], [function(e, exports, t) {
                             ]
                         }),
                         v.report(v.INIT_EXCEPTION_COUNT, 1)));
-                    f.setLoginTime((new Date).getTime()),
+                    f.setLoginTime((new Date).getTime()), // accountFactory
                     f.setUserInfo(n.User),
                     f.setSkey(n.SKey),
                     f.setSyncKey(n.SyncKey),
@@ -304,9 +352,9 @@ webpackJsonp([1], [function(e, exports, t) {
                         y.report(),
                         setTimeout(e, i)
                     }, i),
-                    a(function() {
+                    a(function() { // $timeout
                         function e(a) {
-                            d.initContact(a).then(function(a) {
+                            d.initContact(a).then(function(a) { //contactFactory
                                 d.addContacts(a.MemberList),
                                 M.report(M.ReportType.timing, {
                                     timing: {
@@ -407,15 +455,15 @@ webpackJsonp([1], [function(e, exports, t) {
             }
             1 == Math.floor(100 * Math.random()) && v.report(v.PV, 1);
             window._appTiming = {};
-            i.go("chat"),
+            i.go("chat"), // $state go chat
             e.CONF = m,
-            t.isUnLogin = !window.MMCgi.isLogin,
+            t.isUnLogin = !window.MMCgi.isLogin, // $rootScope
             t.debug = !0,
             t.isShowReader = /qq\.com/gi.test(location.href) && !m.isClientVersion;
             var P = [];
             window.MMCgi.isLogin && N(),
-            t.$on("newLoginPage", function(e, t) {
-                f.setSkey(t.SKey),
+            t.$on("newLoginPage", function(e, t) { // $scope
+                f.setSkey(t.SKey), // accountFactory
                 f.setSid(t.Sid),
                 f.setUin(t.Uin),
                 f.setPassticket(t.Passticket),
@@ -609,7 +657,16 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("loginController", ["$scope", "loginFactory", "utilFactory", "reportService", "monitorService", "confFactory", function(e, t, a, n, i, o) {
+        // 登录controller
+        angular.module("Controllers").controller("loginController", 
+        [
+            "$scope",  // e
+            "loginFactory", // t 
+            "utilFactory", // a
+            "reportService",  // n
+            "monitorService",  // i
+            "confFactory",  // o
+            function(e, t, a, n, i, o) {
             function r(o) {
                 switch (o.code) {
                 case 200:
@@ -6230,6 +6287,7 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
+        // 截屏
         angular.module("Services").factory("screenShotFactory", ["confFactory", "reportService", function(e, t) {
             function a() {
                 return l || (l = QMActivex.create(c))
@@ -9258,6 +9316,7 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports, t) {
     !function(e, a, n) {
         "use strict";
+         // angular
         a.module("ngClipboard", []).provider("ngClip", function() {
             var e = this;
             return this.path = "//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.swf",
@@ -9275,23 +9334,29 @@ webpackJsonp([1], [function(e, exports, t) {
                     }
                 }
             }
-        }).run(["$rootScope", "ngClip", function(n, i) {
-            function o() {
-                t.e(4, function(require) {
-                    var e = t(337);
-                    e.config(a.extend(r, i.config || {}))
+        }).run([
+            "$rootScope",  // n
+            "ngClip", // i
+            function(n, i) {
+                function o() {
+                    // 加载ZeroClipboard模块
+                    // t.e在vendor_a1209e0.expand.js中，为webpack模块加载器
+                    t.e(4, function(require) {
+                        var e = t(337);  //ZeroClipboard模块
+                        e.config(a.extend(r, i.config || {}))
+                    })
+                }
+                var r = {
+                    swfPath: i.path,
+                    trustedDomains: ["*"],
+                    allowScriptAccess: "always",
+                    forceHandCursor: !0
+                };
+                // window是否存在ZeroClipboard
+                e.ZeroClipboard ? o() : n.$on("root:pageInit:success", function() {  // $rootScope页面初始化完成后执行o
+                    o()
                 })
             }
-            var r = {
-                swfPath: i.path,
-                trustedDomains: ["*"],
-                allowScriptAccess: "always",
-                forceHandCursor: !0
-            };
-            e.ZeroClipboard ? o() : n.$on("root:pageInit:success", function() {
-                o()
-            })
-        }
         ]).directive("clipCopy", ["ngClip", function(e) {
             return {
                 scope: {
@@ -9302,8 +9367,8 @@ webpackJsonp([1], [function(e, exports, t) {
                 restrict: "A",
                 link: function(e, n, i) {
                     t.e(4, function(require) {
-                        var o = t(337);
-                        if (o.isFlashUnusable())
+                        var o = t(337);   // 加载ZeroClipboard模块
+                        if (o.isFlashUnusable()) // Flash不可用
                             return void n.bind("click", function(t) {
                                 e.$apply(e.clipClickFallback({
                                     $event: t,
@@ -9337,24 +9402,37 @@ webpackJsonp([1], [function(e, exports, t) {
 , , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Filters").filter("HTMLEnCode", function(e, t, a) {}).filter("HTMLDeCode", function() {
+        angular.module("Filters")
+        // HTML转码
+        .filter("HTMLEnCode", function(e, t, a) {})
+        //HTML解码
+        .filter("HTMLDeCode", function() {
             return function(e, t, a) {
                 return 0 == e.length ? "" : e = e.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&")
             }
-        }).filter("VoiceLengthFilter", function() {
+        })
+        // 转换成秒
+        .filter("VoiceLengthFilter", function() {
             return function(e, t, a) {
                 return 0 == e.length ? 0 : Math.round(e / 1e3)
             }
-        }).filter("emojiHideFilter", function() {
+        })
+        // emoji表情隐藏，直接显示为[表情]
+        .filter("emojiHideFilter", function() {
             return function(e, t, a) {
                 return e && 0 != e.length ? e.replace(/<span class=.emoji.*?<\/span>/g, _("809bb9d")) : ""
             }
-        }).filter("checkurlFilter", ["utilFactory", function(e) {
+        })
+        // url检查
+        .filter("checkurlFilter", ["utilFactory", function(e) {
             return function(t, a, n) {
-                return t && 0 != t.length ? e.genCheckURL(t) : ""
+                return t && 0 != t.length ? e.genCheckURL(t) : "" // utilFactory.genCheckURL
             }
         }
-        ]).filter("timeFormat", ["utilFactory", function(e) {
+        ])
+        // 时间格式化
+        .filter("timeFormat", ["utilFactory", function(e) {
+            // 周日...周六
             var t = [_("562d747"), _("1603b06"), _("b5a6a07"), _("e60725e"), _("170fc8e"), _("eb79cea"), _("2457513")];
             return function(e) {
                 var e = 1e3 * e
@@ -9373,10 +9451,11 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
+        // emoji过滤
         angular.module("Filters").filter("emojiFilter", ["emojiFactory", function(e) {
             return function(t, a, n) {
                 return 0 == t.length ? "" : t = t.replace(/\[([^\]]+)\]/g, function(t, a) {
-                    return e.getEmoticonByText(a)
+                    return e.getEmoticonByText(a)   //从emojiFactory中过滤
                 })
             }
         }
