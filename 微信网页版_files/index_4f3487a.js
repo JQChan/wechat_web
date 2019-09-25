@@ -255,29 +255,29 @@ webpackJsonp([1], [function(e, exports, t) {
         // 全局控制器appController
         angular.module("Controllers").controller("appController", 
         [
-            "$rootScope",  // e
-            "$scope",   // t
-            "$timeout", // a
-            "$log", // n
-            "$state", // i
-            "$window", // o
-            "ngDialog", //  r
-            "mmpop", // c
-            "appFactory", //  s
-            "loginFactory", //  l 
-            "contactFactory", // d 
-            "accountFactory", // f 
-            "chatFactory", // u 
-            "confFactory", // m 
-            "contextMenuFactory", // g
-            "notificationFactory", //  p 
-            "utilFactory", // h 
-            "reportService", // M
-            "monitorService", //  v 
-            "actionTrack", // y 
-            "surviveCheckService", // b 
-            "subscribeMsgService", // C
-            "stateManageService", //  w
+        "$rootScope",  // e
+        "$scope",   // t
+        "$timeout", // a
+        "$log", // n
+        "$state", // i
+        "$window", // o
+        "ngDialog", //  r
+        "mmpop", // c
+        "appFactory", //  s
+        "loginFactory", //  l 
+        "contactFactory", // d 
+        "accountFactory", // f 
+        "chatFactory", // u 
+        "confFactory", // m 
+        "contextMenuFactory", // g
+        "notificationFactory", //  p 
+        "utilFactory", // h 
+        "reportService", // M
+        "monitorService", //  v 
+        "actionTrack", // y 
+        "surviveCheckService", // b 
+        "subscribeMsgService", // C
+        "stateManageService", //  w
         function(e, t, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h, M, v, y, b, C, w) {
             function S() {
                 return d.pickContacts(["friend", "chatroom"], {
@@ -7204,7 +7204,10 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Directives").directive("messageDirective", ["$timeout", "confFactory", function(e, t) {
+        angular.module("Directives").directive("messageDirective", [
+            "$timeout", 
+            "confFactory", 
+            function(e, t) {
             return {
                 restrict: "A",
                 templateUrl: "message.html",
@@ -7215,9 +7218,11 @@ webpackJsonp([1], [function(e, exports, t) {
     }()
 }
 , function(e, exports) {
-    angular.module("Directives").directive("ngInput", ["$parse", function(e) {
-        return function(t, a, n) {
-            var i = e(n.ngInput);
+    angular.module("Directives").directive("ngInput", [
+        "$parse", 
+        function(e) {
+        return function(t, a, n) {  //直接返回link对应的function   function link(scope, element, attrs, controller) { ... }
+            var i = e(n.ngInput);   //元素的ng-input属性
             a.bind("input propertychange", function(e) {
                 t.$$phase ? i(t, {
                     $event: e
@@ -7232,7 +7237,9 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("ngRightClick", ["$parse", function(e) {
+    angular.module("Directives").directive("ngRightClick", [
+        "$parse", 
+        function(e) {
         return function(t, a, n) {
             var i = e(n.ngRightClick);
             a.bind("contextmenu", function(e) {
@@ -7247,7 +7254,12 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("mmpopDirective", ["$timeout", "$document", "mmpop", "$animate", function(e, t, a, n) {
+    angular.module("Directives").directive("mmpopDirective", [
+        "$timeout", 
+        "$document", 
+        "mmpop", 
+        "$animate", 
+        function(e, t, a, n) {
         return {
             restrict: "EA",
             scope: {},
@@ -7274,8 +7286,19 @@ webpackJsonp([1], [function(e, exports, t) {
         var a = 0
           , n = 0
           , i = {};
-        this.$get = ["$document", "$templateCache", "$compile", "$q", "$http", "$rootScope", "$timeout", "$window", "$controller", "$animate", function(o, r, c, s, l, d, f, u, m, g) {
-            var p = o.find("body")
+        this.$get = [
+            "$document", // o 
+            "$templateCache", // r 
+            "$compile", // c 
+            "$q", // s 
+            "$http", // l 
+            "$rootScope", // d 
+            "$timeout", // f 
+            "$window", // u 
+            "$controller", // m 
+            "$animate",// g
+             function(o, r, c, s, l, d, f, u, m, g) {
+            var p = o.find("body") //$document
               , h = {
                 onDocumentKeydown: function(e) {
                     27 === e.keyCode && M.close("$escape")
@@ -8911,7 +8934,22 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("navReadDirective", ["$timeout", "$log", "$document", "$stateParams", "$rootScope", "$state", "chatFactory", "accountFactory", "contactFactory", "appFactory", "confFactory", "utilFactory", "stateManageService", "subscribeMsgService", function(e, t, a, n, i, o, r, c, s, l, d, f, u, m) {
+    angular.module("Directives").directive("navReadDirective", [
+        "$timeout", // e
+        "$log",  //  t 
+        "$document", // a 
+        "$stateParams", // n
+        "$rootScope", //  i 
+        "$state", // o 
+        "chatFactory",  // r 
+        "accountFactory", // c 
+        "contactFactory", // s 
+        "appFactory", // l 
+        "confFactory", // d 
+        "utilFactory", // f 
+        "stateManageService", // u 
+        "subscribeMsgService", // m
+        function(e, t, a, n, i, o, r, c, s, l, d, f, u, m) {
         function g(e) {
             for (var t, a = [], n = 0; n < e.length; n++)
                 t = e[n],
@@ -8922,7 +8960,7 @@ webpackJsonp([1], [function(e, exports, t) {
         return {
             restrict: "EA",
             scope: !0,
-            templateUrl: "navRead.html",
+            templateUrl: "navRead.html",  // 公众号文章列表
             link: function(e, t, a) {
                 e.subscribeMsgs = [],
                 e.articleList = [],
@@ -8969,10 +9007,14 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("mmSrc", ["$document", "$timeout", "$rootScope", function(e, t, a) {
+    angular.module("Directives").directive("mmSrc", [
+        "$document", // e
+        "$timeout", // t
+        "$rootScope", // a
+        function(e, t, a) {
         return {
             priority: 99,
-            link: function(e, a, n) {
+            link: function(e, a, n) {  // function link(scope, element, attrs, controller) { ... }
                 function i() {
                     for (var t; t = v.pop(); )
                         delete t.src,
@@ -8988,7 +9030,7 @@ webpackJsonp([1], [function(e, exports, t) {
                 }
                 function r() {
                     M = !1,
-                    p.onload = function() {
+                    p.onload = function() { // img元素， 设置onload、等属性
                         p.src && p.src.indexOf(s) > -1 && (M = !0,
                         p.onload = null,
                         p.onerror = null,
@@ -9029,7 +9071,19 @@ webpackJsonp([1], [function(e, exports, t) {
                     }
                     return !1
                 }
-                var s, l, d = "src", f = n.src, u = n.mmSrcTimeout ? parseInt(n.mmSrcTimeout) : 5e3, m = n.mmSrcRetryCount ? parseInt(n.mmSrcRetryCount) : 4, g = "undefined" != typeof n.mmSrcParallel, p = a[0], h = 0, M = !1, v = [], y = [], b = n.mmSrcLoad, C = n.mmSrcError;
+                var s, l, 
+                d = "src", 
+                f = n.src, 
+                u = n.mmSrcTimeout ? parseInt(n.mmSrcTimeout) : 5e3,
+                m = n.mmSrcRetryCount ? parseInt(n.mmSrcRetryCount) : 4, 
+                g = "undefined" != typeof n.mmSrcParallel, 
+                p = a[0],  // element的第一个元素
+                h = 0, 
+                M = !1, 
+                v = [], 
+                y = [], 
+                b = n.mmSrcLoad,   // 元素的attrs属性
+                C = n.mmSrcError;   // 元素的attrs属性
                 n.$observe("mmSrc", function(e) {
                     e && (s = e,
                     r())
@@ -9044,25 +9098,29 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("mmPaste", ["$timeout", "utilFactory", "stateManageService", function(e, t, a) {
+    angular.module("Directives").directive("mmPaste", [
+        "$timeout",  // e
+        "utilFactory", // t
+        "stateManageService",  // a
+        function(e, t, a) {
         return {
             restrict: "EA",
             scope: {
                 pasteLimit: "=",
                 pasteResetTime: "="
             },
-            link: function(n, i, o) {
+            link: function(n, i, o) {  // function link(scope, element, attrs, controller) { ... }
                 var r, c = n.pasteLimit || 1, s = n.pasteResetTime || 200, l = 0;
                 i.on("paste", function(n) {
                     var i = n.originalEvent;
                     return a.canDo("pasteFile") ? (t.browser.mozilla && i.clipboardData && 0 == i.clipboardData.types.length && (n.preventDefault(),
                     n.stopImmediatePropagation()),
-                    void (l >= c ? (n.preventDefault(),
+                    void (l >= c ? (n.preventDefault(),     // 粘贴数量大于scope的可黏贴数
                     n.stopImmediatePropagation()) : (r && e.cancel(r),
-                    r = e(function() {
+                    r = e(function() { // $timeout
                         l = 0
                     }, s),
-                    l++))) : (n.preventDefault(),
+                    l++))) : (n.preventDefault(),   // 不可以黏贴文件
                     void n.stopImmediatePropagation())
                 })
             }
@@ -9071,7 +9129,21 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("contactPicker", ["$timeout", "$log", "$document", "$stateParams", "$rootScope", "chatFactory", "accountFactory", "contactFactory", "appFactory", "confFactory", "utilFactory", "stateManageService", "mmpop", function(e, t, a, n, i, o, r, c, s, l, d, f, u) {
+    angular.module("Directives").directive("contactPicker", [
+        "$timeout", // e
+        "$log", //  t 
+        "$document", // a 
+        "$stateParams", // n
+        "$rootScope", //  i 
+        "chatFactory", // o 
+        "accountFactory", // r 
+        "contactFactory", // c 
+        "appFactory", // s 
+        "confFactory", // l 
+        "utilFactory",  // d 
+        "stateManageService",  // f 
+        "mmpop",  // u
+        function(e, t, a, n, i, o, r, c, s, l, d, f, u) {
         function m(e) {
             for (var t, a = {}, n = 0; n < e.length; n++)
                 t = e[n],
@@ -9079,15 +9151,15 @@ webpackJsonp([1], [function(e, exports, t) {
             return a
         }
         return {
-            restrict: "EA",
+            restrict: "EA",  // <contactPicker></contactPicker> 或者 设置属性contact-picker的元素 绑定事件
             scope: {
                 selectList: "=",
                 pickConfig: "=",
                 initList: "="
             },
-            templateUrl: "contactPicker.html",
-            link: function(t, a, n) {
-                function i(e) {
+            templateUrl: "contactPicker.html", // 使用 contactPicker HTML模板
+            link: function(t, a, n) {  // function link(scope, element, attrs, controller) { ... }
+                function i(e) { // 查找e在selectList里面的index
                     var a = -1;
                     return angular.forEach(t.selectList, function(t, n) {
                         if (t.UserName == e)
@@ -9095,7 +9167,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     }),
                     a
                 }
-                function o(e, t) {
+                function o(e, t) { // 插入一个元素
                     return e.unshift.apply(e, t),
                     e
                 }
@@ -9115,14 +9187,14 @@ webpackJsonp([1], [function(e, exports, t) {
                         u.scrollTop = 1e4
                     }, 20))
                 }),
-                f.change("contactPicker:active", !0),
-                t.$on("$destroy", function() {
+                f.change("contactPicker:active", !0),  // stateManageService
+                t.$on("$destroy", function() {  //scope
                     f.change("contactPicker:active", !1)
                 });
-                var g, p, h = t.pickConfig;
+                var g, p, h = t.pickConfig; // scope
                 h.opt.all = h.opt.all || {};
                 var M = t.initList || [];
-                t.contactList = o(c.pickContacts(h.types, h.opt, !0).result, M),
+                t.contactList = o(c.pickContacts(h.types, h.opt, !0).result, M),   //从contactFactory中获取联系人列表
                 t.selectList = t.selectList || [],
                 s(),
                 t.search = function(a) {
@@ -9147,7 +9219,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     }, 200)
                 }
                 ,
-                t.toggleUser = function(e) {
+                t.toggleUser = function(e) {    // 切换用户
                     t.current = e;
                     var a = i(e.UserName);
                     t.keyword && (t.keyword = "",
@@ -9156,16 +9228,16 @@ webpackJsonp([1], [function(e, exports, t) {
                     a == -1 ? t.selectList.push(e) : t.selectList.splice(a, 1)
                 }
                 ,
-                t.delUser = function(e) {
+                t.delUser = function(e) {   // 删除用户
                     var a = i(e);
                     a > -1 && t.selectList.splice(a, 1)
                 }
                 ,
-                t.isCheck = function(e) {
+                t.isCheck = function(e) {   
                     return i(e) != -1
                 }
                 ,
-                t.searchKeydown = function(e) {
+                t.searchKeydown = function(e) {     //搜索keydown
                     switch (e.keyCode) {
                     case l.KEYCODE_ENTER:
                         t.current && t.toggleUser(t.current),
@@ -9198,7 +9270,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     t.current = a,
                     t.$digest()
                 }),
-                t.$on("$destroy", function() {
+                t.$on("$destroy", function() {  // scope destory的时候移除keydown事件
                     $(document).off("keydown", "body", t.searchKeydown)
                 })
             }
@@ -9207,11 +9279,14 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("mmActionTrack", ["actionTrack", "utilFactory", function(e, t) {
+    angular.module("Directives").directive("mmActionTrack", [
+        "actionTrack", // e
+        "utilFactory", // t
+        function(e, t) {
         var a = $(window)
           , n = a.height()
           , i = a.width();
-        return a.on("resize", function(o) {
+        return a.on("resize", function(o) { // window resize事件
             t.fitRun("resize", function() {
                 var t = a.height()
                   , o = a.width()
@@ -9234,7 +9309,7 @@ webpackJsonp([1], [function(e, exports, t) {
                 types: "=trackType",
                 opt: "=trackOpt"
             },
-            link: function(t, a, n) {
+            link: function(t, a, n) {   // function link(scope, element, attrs, controller) { ... }
                 var i = t.opt
                   , o = t.types;
                 for (var r in o) {
@@ -9246,7 +9321,7 @@ webpackJsonp([1], [function(e, exports, t) {
                             backspace: 8,
                             blankspace: 32
                         };
-                        a.on("keydown", function(t) {
+                        a.on("keydown", function(t) {   // 绑定事件的元素响应keydown
                             for (var a in s)
                                 l[s[a]] == t.keyCode && e.addRecord({
                                     type: "keydown",
@@ -9294,10 +9369,12 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("mmError", ["$parse", function(e) {
+    angular.module("Directives").directive("mmError", [
+        "$parse",  // e
+         function(e) {
         return {
-            restrict: "A",
-            compile: function(t, a) {
+            restrict: "A",   // 拥有‘mm-error’属性的html元素会挂载这个mmError方法
+            compile: function(t, a) {  //  function compile(element, attrs, transclude) { ... }
                 var n = e(a.mmError);
                 return function(e, t, a) {
                     t.on("error", function(t) {
@@ -9364,7 +9441,20 @@ webpackJsonp([1], [function(e, exports, t) {
                     clipClick: "&",
                     clipClickFallback: "&"
                 },
-                restrict: "A",
+                restrict: "A",  // 拥有‘clip-copy’属性的html元素会挂载这个ngClip
+                /* restrict 属性值说明 <推荐使用EA>
+ 
+                * E--element元素 <hello></hello>
+                
+                * A--attribute 属性 <div hello></div>
+                
+                * C-class 样式类 <div class="hello"></div>
+                
+                * M 注释 <!-- directive:hello -->
+                
+                */
+                
+                //指令--对元素绑定事件监听或者改变DOM
                 link: function(e, n, i) {
                     t.e(4, function(require) {
                         var o = t(337);   // 加载ZeroClipboard模块
@@ -9375,7 +9465,7 @@ webpackJsonp([1], [function(e, exports, t) {
                                     copy: e.$eval(e.clipCopy)
                                 }))
                             });
-                        var r = new o(n);
+                        var r = new o(n);   // 初始化ZeroClipboard
                         "" === i.clipCopy && (e.clipCopy = function(e) {
                             return n[0].previousElementSibling.innerText
                         }
