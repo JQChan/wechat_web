@@ -843,18 +843,38 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports, t) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("contentChatController", ["$scope", "$timeout", "$state", "$log", "$document", "$compile", "chatFactory", "accountFactory", "contactFactory", "appFactory", "confFactory", "utilFactory", "chatroomFactory", "mmpop", "ngDialog", "preview", "reportService", "mmHttp", "emojiFactory", function(e, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h, M, v, y) {
-            function b(t) {
-                var n = e.currentContact = l.getContact(t);
+        angular.module("Controllers").controller("contentChatController", [
+            "$scope", //e 
+            "$timeout", // a 
+            "$state", // n
+            "$log", // i
+            "$document", // o
+            "$compile", // r
+            "chatFactory", // c
+            "accountFactory", // s
+            "contactFactory", // l
+            "appFactory", // d
+            "confFactory", // f
+            "utilFactory", // u
+            "chatroomFactory", // m
+            "mmpop", // g
+            "ngDialog", // p
+            "preview", // h
+            "reportService", // M
+            "mmHttp", // v
+            "emojiFactory", // y
+            function(e, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h, M, v, y) {
+            function b(t) { // 初始化当前聊天界面
+                var n = e.currentContact = l.getContact(t);  
                 if (n && (e.unreadMessageCount = n.unreadCount,
                 n.unreadCount = 0),
-                e.isChangeUserFlag = !0,
+                e.isChangeUserFlag = !0,  // $scope
                 e.currentUser = t,
                 e.chatContent = c.getChatMessage(t, !0),
                 e.unreadMessage = e.chatContent[e.chatContent.length - e.unreadMessageCount],
                 e.imagesMessagesList = [],
                 e.messagesAnimate = !1,
-                a(function() {
+                a(function() {  //$timeout
                     e.messagesAnimate = !0
                 }, 200),
                 n) {
@@ -889,11 +909,11 @@ webpackJsonp([1], [function(e, exports, t) {
                 e.bottomUnreadCount = 0,
                 c.getChatList()
             }
-            var T = o.find("#chatArea .scrollbar-dynamic")[0];
-            e.delState = !1,
+            var T = o.find("#chatArea .scrollbar-dynamic")[0]; // 消息面板
+            e.delState = !1,  // $scope
             e.chatContent = [],
             e.isShowChatRoomMembers = !1,
-            o.find("#chatArea").on("drop", function(e) {
+            o.find("#chatArea").on("drop", function(e) {  // 聊天界面拖放文件
                 var t = c.setSendFileUsername(c.getCurrentUserName());
                 if (!t)
                     return alert(_("599d8df")),
@@ -929,7 +949,7 @@ webpackJsonp([1], [function(e, exports, t) {
             e.$on("root:profile", function(t, a) {
                 e.showProfile(a.event, a.userName, a.isAdd)
             }),
-            e.$on("root:msgSend:success", function(t, a) {
+            e.$on("root:msgSend:success", function(t, a) { // 消息发送成功
                 if (a.MsgType == f.MSGTYPE_IMAGE && e.imageInit(a),
                 a.ToUserName == e.currentUser)
                     for (var n = 0, i = e.chatContent.length; n < i; ++n) {
@@ -943,7 +963,7 @@ webpackJsonp([1], [function(e, exports, t) {
                         }
                     }
             }),
-            e.$on("root:mmpop:closed", function(t, a) {
+            e.$on("root:mmpop:closed", function(t, a) { // 关闭弹窗
                 "mmpop_chatroom_members" == a && (e.isShowChatRoomMembers = !1,
                 e.$digest())
             }),
@@ -1395,54 +1415,86 @@ webpackJsonp([1], [function(e, exports, t) {
 , , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("contentContactController", ["$scope", "contactFactory", function(e, t) {
-            e.$watch(function() {
-                return t.getCurrentContact()
-            }, function(a) {
-                a && (e.currentContact = t.getCurrentContact())
-            })
-        }
+        angular.module("Controllers").controller("contentContactController", [
+            "$scope", 
+            "contactFactory", 
+            function(e, t) {
+                e.$watch(function() {
+                    return t.getCurrentContact()
+                }, function(a) {
+                    a && (e.currentContact = t.getCurrentContact())
+                })
+            }
         ])
     }()
 }
 , function(e, exports, t) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("chatSenderController", ["$rootScope", "$scope", "$http", "$timeout", "ngDialog", "confFactory", "accountFactory", "contactFactory", "chatFactory", "screenShotFactory", "utilFactory", "mmpop", "stateManageService", "emojiFactory", "reportService", "monitorService", function(e, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h) {
-            function M() {
-                var e = "undefined" != typeof x.textContent ? x.textContent : x.innerText
-                  , t = x.getElementsByTagName("img").length > 0;
+        angular.module("Controllers").controller("chatSenderController", [
+            "$rootScope",  // e
+            "$scope", // a
+            "$http", // n
+            "$timeout", // i
+            "ngDialog", // o
+            "confFactory", // r
+            "accountFactory", // c
+            "contactFactory", // s
+            "chatFactory", // l
+            "screenShotFactory", // d
+            "utilFactory", // f
+            "mmpop", // u
+            "stateManageService", // m
+            "emojiFactory", // g
+            "reportService", // p
+            "monitorService",  // h
+            function(e, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h) {
+            function M() { // 改变stateManageService中的sender:hasText状态
+                var e = "undefined" != typeof x.textContent ? x.textContent : x.innerText  // 获取interText
+                  , t = x.getElementsByTagName("img").length > 0; // 获取图片
                 e.length > 0 || t ? m.change("sender:hasText", !0) : m.change("sender:hasText", !1)
             }
-            function v() {
+            function v() { // 设置P为window.getSelection, A为range， 否则A为createRange
                 window.getSelection ? (P = window.getSelection(),
                 A = P.getRangeAt(0)) : A = document.selection.createRange()
             }
-            function y() {
-                A ? window.getSelection ? (P.removeAllRanges(),
-                P.addRange(A)) : A.select() : b()
+            function y() {  // 创建range
+                A ? 
+                window.getSelection ? (
+                    P.removeAllRanges(),// selection清除range，再加入selection
+                    P.addRange(A)
+                    )  : A.select()  // range select()
+                : 
+                b()
             }
-            function b() {
+            function b() { // 选中editArea
                 var e, t;
-                document.createRange ? (e = document.createRange(),
-                e.selectNodeContents(x),
-                e.collapse(!1),
-                t = window.getSelection(),
-                t.removeAllRanges(),
-                t.addRange(e)) : document.selection && (e = document.body.createTextRange(),
-                e.moveToElementText(x),
-                e.collapse(!1),
-                e.select())
+                document.createRange ? (
+                    e = document.createRange(),
+                    e.selectNodeContents(x), // 选中editArea
+                    e.collapse(!1),
+                    t = window.getSelection(),
+                    t.removeAllRanges(),
+                    t.addRange(e)
+                ) 
+                : 
+                document.selection && ( // IE浏览器
+                    e = document.body.createTextRange(),
+                    e.moveToElementText(x),
+                    e.collapse(!1),
+                    e.select())
             }
-            function C(e) {
-                var t, a, n = "";
+            function C(e) { // 截取选中的文字
+                var t, 
+                     a, 
+                     n = "";
                 if (window.getSelection)
                     t = window.getSelection(),
                     t.rangeCount > 0 && (a = t.getRangeAt(0).cloneRange(),
                     a.collapse(!0),
                     a.setStart(x, 0),
                     n = a.toString().slice(-e));
-                else if ((t = document.selection) && "Control" != t.type) {
+                else if ((t = document.selection) && "Control" != t.type) { // IE浏览器 IE9以下
                     var i;
                     a = t.createRange(),
                     i = a.duplicate(),
@@ -1452,17 +1504,19 @@ webpackJsonp([1], [function(e, exports, t) {
                 }
                 return n
             }
-            /**
-            * 获取当前window.getSelection()
-            * e 字符串
-             */
-            function w(e, t) {
+            function w(e, t) { // 获取当前window.getSelection()  e 字符串
                 var a, n;
                 if (t || y(),
                 window.getSelection) {
-                    !t && A ? (a = P,
-                    n = A) : (a = window.getSelection(),  // a为getSelection()
-                    n = a.getRangeAt(0)),   // n为range
+                    !t && A ? (  // 存在A
+                        a = P,
+                        n = A
+                    ) 
+                        : 
+                    (
+                        a = window.getSelection(),  // a为getSelection()
+                        n = a.getRangeAt(0)
+                    ),   // n为range
                     n.deleteContents(); //range删除内容
                     var i;
                     if (n.createContextualFragment) // i为创建documentFrament元素
@@ -1480,20 +1534,20 @@ webpackJsonp([1], [function(e, exports, t) {
                     a.removeAllRanges(),    //selection移除allranges
                     a.addRange(n);  //selection加入range
                     var l = s.offsetTop - 42 + s.offsetHeight - x.offsetHeight;
-                    x.scrollTop < l && (x.scrollTop = l)
+                    x.scrollTop < l && (x.scrollTop = l) // editArea滚动到位置
                 } else
                     n = t || !A ? document.selection.createRange() : A,  // n 为A，window.getSelection.getRangeAt(0)
                     e = e.replace(/</gi, "&lt;").replace(/>/gi, "&gt;"), //将e中的尖括号替换
                     n.pasteHTML(e), //在指定的文字区域内替换该区域内的文本或者HTML（IE pasteHTML方法）
                     n.select() //选中
             }
-            function S() {
+            function S() { //selection的range插入caretPosHelper光标辅助， editArea父元素插入光标
                 window.getSelection && (window.getSelection().getRangeAt(0).insertNode(U),
-                F = U.offsetLeft,
-                V = U.offsetTop - x.scrollTop,
-                D.appendChild(U))
+                F = U.offsetLeft, // 光标辅助的左坐标
+                V = U.offsetTop - x.scrollTop, // 光标辅助的上坐标
+                D.appendChild(U)) // editArea父元素插入光标
             }
-            function T(t) {
+            function T(t) { // ngDialog打开图片预览
                 var a = o.open({
                     template: "imageUploadPreview.html",
                     controller: ["$scope", function(e) {
@@ -1532,24 +1586,24 @@ webpackJsonp([1], [function(e, exports, t) {
                     close: a.close
                 }
             }
-            function N(e) {
-                x.innerHTML = a.editAreaCtn = e || "",
+            function N(e) { // 设置editAre的innerHTML并聚焦，执行M， 如果有字符串，则执行b、v创建selection、range
+                x.innerHTML = a.editAreaCtn = e || "",  // $scope
                 x.focus(),
                 M(),
                 m.change("sender:active", !0),
                 e && (b(),
                 v())
             }
-            function E(e) {
+            function E(e) { // 将字符串loweCase然后返回Q中的消息类型
                 return Q[e.toLowerCase()]
             }
-            function G(e) {
+            function G(e) { // 判断消息类型
                 var t = {
                     mp4: 1
                 };
                 return E(e) ? r.MSGTYPE_IMAGE : t[e.toLowerCase()] ? r.MSGTYPE_VIDEO : r.MSGTYPE_APP
             }
-            function k(e, t) {
+            function k(e, t) {  // 从e中扩展e的属性
                 angular.extend(e, {
                     onQueued: X,
                     onProgress: X,
@@ -1557,12 +1611,12 @@ webpackJsonp([1], [function(e, exports, t) {
                     onError: X
                 }, t)
             }
-            function I() {
-                t.e(3, function(require) {
+            function I() { // 创建上传WebUploader
+                t.e(3, function(require) {  // webpack加载
                     var e = t(281);
-                    window.WebUploader = e;
+                    window.WebUploader = e;  // 上传
                     try {
-                        K = e.create({
+                        K = e.create({  // 创建上传
                             auto: !0,
                             dnd: "#chatArea",
                             paste: f.browser.webkit ? "#chatArea" : void 0,
@@ -1734,11 +1788,21 @@ webpackJsonp([1], [function(e, exports, t) {
                     }
                 })
             }
-            var P, A, U = document.getElementById("caretPosHelper"), F = 0, V = 0, x = document.getElementById("editArea"), D = x.parentNode, O = f.getShareObject("editingContents"), R = !1, q = !1, j = null;
-            $(x).on("input", function() {
-                v()
+            var P,  // selection | undefined
+            A, // range
+            U = document.getElementById("caretPosHelper"),  // caretPosHelper光标辅助
+            F = 0, // 光标辅助的左坐标
+            V = 0, //光标辅助的上坐标
+            x = document.getElementById("editArea"), 
+            D = x.parentNode,  // editArea父元素
+            O = f.getShareObject("editingContents"),  // utilFactory
+            R = !1, 
+            q = !1, 
+            j = null; //定时器
+            $(x).on("input", function() { // 元素editArea 绑定input、click、paste事件
+                v() // 创建selection、range
             }).on("click", function() {
-                v()
+                v()  // 创建selection、range
             }).on("paste", function(e) {
                 var t = l.setSendFileUsername(l.getCurrentUserName());
                 if (j && clearTimeout(j),
@@ -1752,11 +1816,11 @@ webpackJsonp([1], [function(e, exports, t) {
                     e.stopPropagation(),
                     !1
             }),
-            $("#J_CatchDrop").on("drop", function(e) {
+            $("#J_CatchDrop").on("drop", function(e) { // drop事件
                 e.stopPropagation(),
                 e.preventDefault()
             }),
-            a.isDisabled = !a.userName,
+            a.isDisabled = !a.userName,  // $scope
             a.isMacOS = navigator.userAgent.toUpperCase().indexOf("MAC OS") > -1,
             a.editAreaCtn = "";
             var L;
@@ -1770,8 +1834,8 @@ webpackJsonp([1], [function(e, exports, t) {
                 L = e,
                 N(O[e])
             }),
-            a.showEmojiPanel = function(e) {
-                u.toggleOpen({
+            a.showEmojiPanel = function(e) { // 展开emoji面板
+                u.toggleOpen({ // mmpop
                     top: -272,
                     left: 15,
                     templateUrl: "expression.html",
@@ -1786,17 +1850,16 @@ webpackJsonp([1], [function(e, exports, t) {
             }
             ;
             var Y;
-            a.sendClick = function(e) {
-                var t = l.setSendFileUsername(l.getCurrentUserName());
+            a.sendClick = function(e) {            // 发送
+                var t = l.setSendFileUsername(l.getCurrentUserName());  // chatFactory
                 if (!t)
                     return (!Y || e.timeStamp - Y > 30) && (Y = e.timeStamp,
                     alert(_("599d8df"))),
                     e.preventDefault(),
                     e.stopPropagation(),
                     !1
-            }
-            ,
-            a.screenShot = function() {
+            },
+            a.screenShot = function() {   // 截图
                 var e;
                 d.isSupport() ? d.capture({
                     ok: function() {
@@ -1814,19 +1877,20 @@ webpackJsonp([1], [function(e, exports, t) {
                 h.report(h.CLICK_SNAPSHOT_COUNT, 1)
             }
             ;
-            var B, H;
-            a.editAreaKeyup = function(e) {
-                if (MMDEV && e.keyCode == r.KEYCODE_NUM2 && "@" == C(1)) {
+            var B,  // 定时器
+                  H;  // 显示@面板
+            a.editAreaKeyup = function(e) { // keyup事件
+                if (MMDEV && e.keyCode == r.KEYCODE_NUM2 && "@" == C(1)) {  // confFactory
                     var t = l.getCurrentUserName();
                     if (!f.isRoomContact(t))
                         return;
-                    S(),
+                    S(), // 插入光标辅助
                     H = function() {
                         B = null,
                         H = null;
-                        var e = s.getChatRoomMembersContact(t, "withoutMe");
-                        v(),
-                        u.open({
+                        var e = s.getChatRoomMembersContact(t, "withoutMe"); //过滤本人
+                        v(), // 创建selection、range
+                        u.open({ // 展开@人的面板
                             templateUrl: "editAreaContactPanel.html",
                             controller: "editAreaContactListController",
                             left: F,
@@ -1841,7 +1905,7 @@ webpackJsonp([1], [function(e, exports, t) {
                         })
                     }
                     ,
-                    !B && H && H(),
+                    !B && H && H(), // 显示@的人
                     clearTimeout(B),
                     B = setTimeout(function() {
                         H && H(),
@@ -1850,45 +1914,46 @@ webpackJsonp([1], [function(e, exports, t) {
                 }
             }
             ,
-            a.editAreaKeydown = function(e) {
+            a.editAreaKeydown = function(e) { // keydown事件
                 if (M(),
                 B)
                     return void e.preventDefault();
                 var t = e.keyCode;
-                if (t == r.KEYCODE_ENTER) {
-                    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
-                        var n = "<br>";
+                if (t == r.KEYCODE_ENTER) { // enter事件
+                    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) { // enter+ctrl换行
+                        var n = "<br>"; // n为换行元素
                         if (!f.browser.msie && window.getSelection) {
-                            var i = window.getSelection().focusNode.nextSibling;
+                            var i = window.getSelection().focusNode.nextSibling; // 获取聚焦元素的下一个相邻元素
                             do
                                 if (!i || i.nodeValue || "BR" == i.tagName)
                                     break;
-                            while (i = i.nextSibling);i || (n += n)
+                            while (i = i.nextSibling);
+                            i || (n += n)
                         }
-                        a.insertToEditArea(n, !0),
+                        a.insertToEditArea(n, !0), // 插入editArea
                         x.scrollTop = x.scrollHeight
                     } else
                         a.sendTextMessage();
                     e.preventDefault()
                 }
-                83 == t && e.altKey && (a.sendTextMessage(),
+                83 == t && e.altKey && (a.sendTextMessage(), // 发送消息 Alt+s
                 e.preventDefault()),
-                (t >= 65 && t <= 111 || t >= 186 && t <= 222) && u.close()
+                (t >= 65 && t <= 111 || t >= 186 && t <= 222) && u.close()  // mmpop关闭
             }
             ,
-            a.editAreaBlur = function(e) {
+            a.editAreaBlur = function(e) { // 失去焦点
                 H = null,
                 m.change("sender:active", !1)
             }
             ,
-            a.editAreaClick = function(e) {
-                S()
+            a.editAreaClick = function(e) {  // 点击
+                S()  //插入辅助光标
             }
             ,
-            a.sendTextMessage = function() {
+            a.sendTextMessage = function() { // 发送文本消息
                 if (u.close(),
                 !a.editAreaCtn.replace(/<br\/?>/g, "").match(/^\s*$/)) {
-                    var e = l.createMessage({
+                    var e = l.createMessage({  // chatFactory
                         MsgType: r.MSGTYPE_TEXT,
                         Content: a.editAreaCtn
                     });
@@ -1903,15 +1968,12 @@ webpackJsonp([1], [function(e, exports, t) {
                 N(t + (x.innerHTML.replace("<br>", "") ? x.innerHTML : "<br>")),
                 x.scrollTop = 9999
             }),
-            /**
-            * 插入到编辑区域中
-             */
-            a.insertToEditArea = function(e, t) {
-                w(e, t),
+            a.insertToEditArea = function(e, t) {  // 插入到编辑区域中
+                w(e, t),//创建selection
                 a.editAreaCtn = x.innerHTML
             }
             ,
-            a.sendTuzkiEmoji = function(e, t) {
+            a.sendTuzkiEmoji = function(e, t) {  // 发送表情
                 var a = l.createMessage({
                     MsgType: r.MSGTYPE_EMOTICON,
                     Content: e,
@@ -1923,19 +1985,24 @@ webpackJsonp([1], [function(e, exports, t) {
                 l.sendMessage(a)
             }
             ,
-            a.sendGif = function(e) {}
-            ;
-            var K, W = 20, z = 25, Q = {
-                bmp: 1,
-                png: 1,
-                jpeg: 1,
-                jpg: 1,
-                gif: 0
-            }, J = function(e) {
-                K.cancelFile(e.MMFileId),
-                e.MMFileStatus = r.MM_SEND_FILE_STATUS_CANCEL,
-                e.MMStatus = r.MSG_SEND_STATUS_READY
-            }, X = function() {}, Z = {
+            a.sendGif = function(e) {};
+            var K, 
+                W = 20, 
+                z = 25, 
+                Q = {
+                    bmp: 1,
+                    png: 1,
+                    jpeg: 1,
+                    jpg: 1,
+                    gif: 0
+                }, 
+                J = function(e) {
+                    K.cancelFile(e.MMFileId),
+                    e.MMFileStatus = r.MM_SEND_FILE_STATUS_CANCEL,
+                    e.MMStatus = r.MSG_SEND_STATUS_READY
+                }, 
+                X = function() {}, 
+                Z = {
                 onQueued: function() {
                     if ((E(this.ext) || "gif" == this.ext.toLowerCase()) && this.ToUserName != l.getCurrentUserName() && (f.reportSendState("sendImageWrong"),
                     p.report(p.ReportType.sendError, {
@@ -2014,7 +2081,8 @@ webpackJsonp([1], [function(e, exports, t) {
                         t.MMSendMsg.MMStatus = r.MSG_SEND_STATUS_FAIL
                     })
                 }
-            }, ee = {
+            }, 
+            ee = {
                 onQueued: function() {
                     var e = l.createMessage({
                         ToUserName: this.ToUserName,
@@ -2038,7 +2106,7 @@ webpackJsonp([1], [function(e, exports, t) {
             };
             window.WebUploader ? I() : e.$on("root:pageInit:success", function() {
                 I()
-            })
+            })  // 创建WebUploader
         }
         ])
     }()
@@ -2049,7 +2117,14 @@ webpackJsonp([1], [function(e, exports, t) {
         /**
          * 表情controller, function里面的代表前面的模块
          */
-        angular.module("Controllers").controller("emojiController", ["$rootScope", "$scope", "$timeout", "emojiFactory", "confFactory", "utilFactory", function(e, t, a, n, i, o) {
+        angular.module("Controllers").controller("emojiController", [
+            "$rootScope", 
+            "$scope", 
+            "$timeout", 
+            "emojiFactory", 
+            "confFactory", 
+            "utilFactory", 
+            function(e, t, a, n, i, o) {
             a(function() {
                 t.QQFaceList = n.QQFaceList,
                 t.EmojiList = n.EmojiList,
@@ -2099,7 +2174,25 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("createChatroomController", ["$rootScope", "$scope", "$timeout", "$state", "$log", "$document", "chatFactory", "contactFactory", "appFactory", "chatroomFactory", "confFactory", "mmpop", "ngDialog", "utilFactory", "stateManageService", "accountFactory", "monitorService", function(e, t, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h) {
+        angular.module("Controllers").controller("createChatroomController", [
+            "$rootScope", 
+            "$scope", 
+            "$timeout", 
+            "$state", 
+            "$log", 
+            "$document", 
+            "chatFactory", 
+            "contactFactory", 
+            "appFactory", 
+            "chatroomFactory", 
+            "confFactory", 
+            "mmpop", 
+            "ngDialog", 
+            "utilFactory", 
+            "stateManageService", 
+            "accountFactory", 
+            "monitorService", 
+            function(e, t, a, n, i, o, r, c, s, l, d, f, u, m, g, p, h) {
             a(function() {
                 t.ngDialogData.isCreate && (M = []),
                 t.allContacts = c.pickContacts(["star", "friend"], {
@@ -2224,7 +2317,20 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("contextMenuController", ["$rootScope", "$scope", "$state", "contextMenuFactory", "accountFactory", "confFactory", "contactFactory", "ngDialog", "chatroomFactory", "emojiFactory", "utilFactory", "chatFactory", function(e, t, a, n, i, o, r, c, s, l, d, f) {
+        angular.module("Controllers").controller("contextMenuController", [
+            "$rootScope", 
+            "$scope", 
+            "$state", 
+            "contextMenuFactory", 
+            "accountFactory", 
+            "confFactory", 
+            "contactFactory", 
+            "ngDialog", 
+            "chatroomFactory", 
+            "emojiFactory", 
+            "utilFactory", 
+            "chatFactory", 
+            function(e, t, a, n, i, o, r, c, s, l, d, f) {
             function u(e) {
                 function a(e) {
                     return e.parentNode != e.document ? (n.push(e.parentNode),
@@ -2462,7 +2568,12 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("editAreaContactListController", ["$scope", "confFactory", "utilFactory", "$timeout", function(e, t, a, n) {
+        angular.module("Controllers").controller("editAreaContactListController", [
+            "$scope",  // e
+            "confFactory",  // t
+            "utilFactory", // a
+            "$timeout", // n
+            function(e, t, a, n) {
             function i(t, n) {
                 n = a.clearHtmlStr(n) + " ",
                 s.innerHTML = n;
@@ -2487,26 +2598,26 @@ webpackJsonp([1], [function(e, exports, t) {
               , d = 42
               , f = 10;
             e.selectIndex = 0,
-            setTimeout(function() {
+            setTimeout(function() { // 聚焦
                 c.focus()
             }, 5),
-            e.click = function(e) {
+            e.click = function(e) { // 点击选择@的人
                 i(e.currentTarget.getAttribute("username"), e.currentTarget.getAttribute("displayname"))
             }
             ,
             e.keydown = function(a) {
                 switch (a.keyCode) {
-                case t.KEYCODE_ARROW_UP:
+                case t.KEYCODE_ARROW_UP: // 响应上箭头事件
                     e.selectIndex = --e.selectIndex < 0 ? 0 : e.selectIndex,
                     o(e.selectIndex),
                     a.stopPropagation();
                     break;
-                case t.KEYCODE_ARROW_DOWN:
+                case t.KEYCODE_ARROW_DOWN: // 响应下箭头事件
                     e.selectIndex = ++e.selectIndex > l ? l : e.selectIndex,
                     o(e.selectIndex),
                     a.stopPropagation();
                     break;
-                case t.KEYCODE_ENTER:
+                case t.KEYCODE_ENTER: // 响应enter事件
                     var n = e.memberList[e.selectIndex];
                     if (!n.getDisplayName)
                         break;
@@ -2528,7 +2639,19 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("systemMenuController", ["$rootScope", "$scope", "$timeout", "ngDialog", "loginFactory", "confFactory", "accountFactory", "utilFactory", "monitorService", "oplogFactory", "reportService", function(e, t, a, n, i, o, r, c, s, l, d) {
+        angular.module("Controllers").controller("systemMenuController", [
+            "$rootScope", 
+            "$scope", 
+            "$timeout", 
+            "ngDialog", 
+            "loginFactory", 
+            "confFactory", 
+            "accountFactory", 
+            "utilFactory", 
+            "monitorService", 
+            "oplogFactory", 
+            "reportService", 
+            function(e, t, a, n, i, o, r, c, s, l, d) {
             t.createChatroom = function() {
                 n.open({
                     templateUrl: "createChatroom.html",
@@ -2611,7 +2734,11 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("readMenuController", ["$rootScope", "$scope", "subscribeMsgService", function(e, t, a) {
+        angular.module("Controllers").controller("readMenuController", [
+            "$rootScope", 
+            "$scope", 
+            "subscribeMsgService", 
+            function(e, t, a) {
             t.copyCallback = function() {}
             ,
             t.copyLink = function() {
@@ -2636,86 +2763,112 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Controllers").controller("transpondDialogController", ["$rootScope", "$scope", "$timeout", "$state", "$log", "$document", "chatFactory", "contactFactory", "appFactory", "chatroomFactory", "confFactory", "mmpop", "ngDialog", "utilFactory", "stateManageService", "accountFactory", function(e, t, a, n, i, o, r, c, s, l, d, f, u, m, g, p) {
-            function h(e, t) {
-                if (e.MsgType != d.MSGTYPE_SYS) {
-                    var a = angular.copy(e);
-                    a.ToUserName = t,
-                    a.FromUserName = p.getUserName(),
-                    a.isTranspond = !0,
-                    a.MsgIdBeforeTranspond = e.MsgIdBeforeTranspond || e.MsgId,
-                    a._h = void 0,
-                    a._offsetTop = void 0,
-                    a.MMSourceMsgId = e.MsgId,
-                    a.Scene = 2,
-                    a = r.createMessage(a),
-                    a.sendByLocal = !1,
-                    a.Content = m.htmlDecode(a.Content.replace(/^@\w+:<br\/>/, "")),
-                    a.MMActualSender = p.getUserName(),
-                    a.MMSendContent && (a.MMSendContent = a.MMSendContent.replace(/^@\w+:\s/, "")),
-                    a.MMDigest && (a.MMDigest = a.MMDigest.replace(/^@\w+:/, "")),
-                    a.MMActualContent && (a.MMActualContent = m.clearHtmlStr(a.MMActualContent.replace(/^@\w+:<br\/>/, ""))),
-                    r.appendMessage(a),
-                    r.sendMessage(a)
-                }
-            }
-            var M = t.ngDialogData.msg;
-            t.pickConfig = {
-                types: ["chatroom", "star", "friend"],
-                opt: {
-                    star: {},
-                    chatroom: {
-                        isSaved: !0
-                    },
-                    friend: {
-                        isWithoutStar: !0,
-                        isWithoutBrand: !0
+        angular.module("Controllers").controller("transpondDialogController", [ // 消息转发
+            "$rootScope", // e 
+            "$scope", // t 
+            "$timeout", // a 
+            "$state", // n 
+            "$log", // i 
+            "$document",  // o 
+            "chatFactory", // r 
+            "contactFactory", // c 
+            "appFactory", // s 
+            "chatroomFactory", // l 
+            "confFactory", // d 
+            "mmpop", // f 
+            "ngDialog", // u 
+            "utilFactory", // m 
+            "stateManageService", // g 
+            "accountFactory", // p
+            function(e, t, a, n, i, o, r, c, s, l, d, f, u, m, g, p) {
+                function h(e, t) {
+                    if (e.MsgType != d.MSGTYPE_SYS) {
+                        var a = angular.copy(e);
+                        a.ToUserName = t,
+                        a.FromUserName = p.getUserName(),
+                        a.isTranspond = !0,
+                        a.MsgIdBeforeTranspond = e.MsgIdBeforeTranspond || e.MsgId,
+                        a._h = void 0,
+                        a._offsetTop = void 0,
+                        a.MMSourceMsgId = e.MsgId,
+                        a.Scene = 2,
+                        a = r.createMessage(a),
+                        a.sendByLocal = !1,
+                        a.Content = m.htmlDecode(a.Content.replace(/^@\w+:<br\/>/, "")),
+                        a.MMActualSender = p.getUserName(),
+                        a.MMSendContent && (a.MMSendContent = a.MMSendContent.replace(/^@\w+:\s/, "")),
+                        a.MMDigest && (a.MMDigest = a.MMDigest.replace(/^@\w+:/, "")),
+                        a.MMActualContent && (a.MMActualContent = m.clearHtmlStr(a.MMActualContent.replace(/^@\w+:<br\/>/, ""))),
+                        r.appendMessage(a),
+                        r.sendMessage(a)
                     }
                 }
-            };
-            var v = angular.copy(r.getChatList());
-            v.unshift({
-                text: _("b3b6735"),
-                type: "header"
-            }),
-            t.initList = v,
-            t.ensure = function() {
-                var e = t.selectedUsers;
-                t.comfirming = !1;
-                for (var a = 0; a < e.length; a++)
-                    h(M, e[a].UserName);
-                t.closeThisDialog()
-            }
-            ,
-            t.cancel = function() {
-                t.comfirming = !1
-            }
-            ,
-            t.send = function() {
-                var e = t.selectedUsers.length;
-                if (e > 0) {
-                    if (1 == e)
-                        return void t.ensure();
-                    if (e > 200)
-                        return void alert("选择的人数必须少于200");
-                    t.comfirming = !0
+                var M = t.ngDialogData.msg;
+                t.pickConfig = {
+                    types: ["chatroom", "star", "friend"],
+                    opt: {
+                        star: {},
+                        chatroom: {
+                            isSaved: !0
+                        },
+                        friend: {
+                            isWithoutStar: !0,
+                            isWithoutBrand: !0
+                        }
+                    }
+                };
+                var v = angular.copy(r.getChatList());
+                v.unshift({
+                    text: _("b3b6735"),
+                    type: "header"
+                }),
+                t.initList = v,
+                t.ensure = function() {
+                    var e = t.selectedUsers;
+                    t.comfirming = !1;
+                    for (var a = 0; a < e.length; a++)
+                        h(M, e[a].UserName);
+                    t.closeThisDialog()
+                }
+                ,
+                t.cancel = function() {
+                    t.comfirming = !1
+                }
+                ,
+                t.send = function() {
+                    var e = t.selectedUsers.length;
+                    if (e > 0) {
+                        if (1 == e)
+                            return void t.ensure();
+                        if (e > 200)
+                            return void alert("选择的人数必须少于200");
+                        t.comfirming = !0
+                    }
                 }
             }
-        }
         ])
     }()
 }
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("appFactory", ["$http", "$q", "confFactory", "accountFactory", "loginFactory", "utilFactory", "reportService", "mmHttp", function(e, t, a, n, i, o, r, c) {
+        angular.module("Services").factory("appFactory", [
+            "$http", // e
+            "$q",  // t
+            "confFactory", // a
+            "accountFactory", // n
+            "loginFactory", // i
+            "utilFactory", // o
+            "reportService", // r
+            "mmHttp", // c
+            function(e, t, a, n, i, o, r, c) {
             var s = {
                 globalData: {
-                    chatList: []
+                    chatList: [] //聊天列表
                 },
-                init: function() {
-                    var e = t.defer();
-                    return c({
+                init: function() { // 初始化
+                    var e = t.defer(); // $q
+                    return c({  // mmHttp
                         method: "POST",
                         url: a.API_webwxinit,
                         MMRetry: {
@@ -2791,34 +2944,58 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(module, exports) {
     !function(_aoUndefined) {
         "use strict";
-        angular.module("Services").factory("chatFactory", ["$rootScope", "$timeout", "$http", "$q", "contactFactory", "accountFactory", "emojiFactory", "confFactory", "notificationFactory", "utilFactory", "reportService", "mmHttp", "titleRemind", function($rootScope, $timeout, $http, $q, contactFactory, accountFactory, emojiFactory, confFactory, notificationFactory, utilFactory, reportService, mmHttp, titleRemind) {
-            function handleChatList(e) {
+        angular.module("Services").factory("chatFactory", [
+            "$rootScope", 
+            "$timeout", 
+            "$http", 
+            "$q", 
+            "contactFactory", 
+            "accountFactory", 
+            "emojiFactory", 
+            "confFactory", 
+            "notificationFactory", 
+            "utilFactory", 
+            "reportService", 
+            "mmHttp", 
+            "titleRemind", 
+            function($rootScope, $timeout, $http, $q, contactFactory, accountFactory, emojiFactory, confFactory, notificationFactory, utilFactory, reportService, mmHttp, titleRemind) {
+            function handleChatList(e) { // 处理聊天列表
                 for (var t, a = [], n = [], i = 0; i < e.length; i++)
                     t = e[i],
-                    t.isTop() ? a.push(t) : n.push(t);
-                return [].unshift.apply(n, a),
+                    t.isTop() ? a.push(t) : n.push(t); //区分置顶聊天
+                return [].unshift.apply(n, a), // n.unshift(a)
                 n
             }
-            var _chatList = [], _chatListInfos = [], _chatMessages = window._chatContent = {}, _currentUserName = "", _addedMsgIdsMap = {}, _msgMap = {}, _sendFileUserName, _currentUnreadMap = {}, _rChatList = [], _SChatList = [], service = {
-                setCurrentUserName: function(e) {
+            var _chatList = [], 
+            _chatListInfos = [], 
+            _chatMessages = window._chatContent = {}, 
+            _currentUserName = "", 
+            _addedMsgIdsMap = {}, 
+            _msgMap = {}, 
+            _sendFileUserName, 
+            _currentUnreadMap = {}, 
+            _rChatList = [], 
+            _SChatList = [], 
+            service = {
+                setCurrentUserName: function(e) { //设置当前用户名
                     _currentUserName = e;
                     var t = contactFactory.getContact(e);
                     t._notActive = !1
                 },
-                getCurrentUserName: function() {
+                getCurrentUserName: function() {    // 获取当前用户名
                     return _currentUserName
                 },
-                setSendFileUsername: function(e) {
+                setSendFileUsername: function(e) {  // 设置发送文件用户名
                     return !!this._sendCheck(e) && (_sendFileUserName = e,
                     !0)
                 },
-                resetSendFileUsername: function() {
+                resetSendFileUsername: function() { // 重置发送文件用户名
                     _sendFileUserName = ""
                 },
-                getSendFileUsername: function() {
+                getSendFileUsername: function() { // 获取发送文件用户名
                     return _sendFileUserName || _currentUserName
                 },
-                _sendCheck: function(e) {
+                _sendCheck: function(e) { // 发送检查
                     var t = $("#chatArea .title_wrap .title_name")[0]
                       , a = $("#J_NavChatScrollBody")[0];
                     if (t && a) {
@@ -2847,7 +3024,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     utilFactory.reportSendState("sendcheckElementError"),
                     !1
                 },
-                createMessage: function(e) {
+                createMessage: function(e) { // 创建消息
                     switch (e.FromUserName || (e.FromUserName = accountFactory.getUserName()),
                     e.ToUserName || (e.ToUserName = this.getCurrentUserName()),
                     e.ClientMsgId = e.LocalID = e.MsgId = (utilFactory.now() + Math.random().toFixed(3)).replace(".", ""),
@@ -2855,7 +3032,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     e.MMStatus = confFactory.MSG_SEND_STATUS_READY,
                     e.sendByLocal = !0,
                     e.MsgType) {
-                    case confFactory.MSGTYPE_TEXT:
+                    case confFactory.MSGTYPE_TEXT: // text消息
                         var t = [];
                         e.Content = e.Content.replace(/<input.*?un="(.*?)".*?value="(.*?)".*?>/g, function(e, a, n) {
                             return t.push(a),
@@ -2869,7 +3046,7 @@ webpackJsonp([1], [function(e, exports, t) {
                         }),
                         e.Content = e.Content.replace(/<(?!(img|IMG|br|BR))[^>]*>/g, "").replace(/\n/g, "<br>");
                         break;
-                    case confFactory.MSGTYPE_APP:
+                    case confFactory.MSGTYPE_APP: // app消息
                         if (e.AppMsgType == confFactory.APPMSGTYPE_URL)
                             break;
                         e.AppMsgType = confFactory.APPMSGTYPE_ATTACH,
@@ -2877,11 +3054,11 @@ webpackJsonp([1], [function(e, exports, t) {
                     }
                     return e
                 },
-                appendMessage: function(e) {
+                appendMessage: function(e) { // 增加消息
                     e.MMStatus = confFactory.MSG_SEND_STATUS_SENDING,
                     this.messageProcess(e)
                 },
-                sendMessage: function(e) {
+                sendMessage: function(e) { // 根据消息类型发送消息
                     switch (e.MMStatus = confFactory.MSG_SEND_STATUS_SENDING,
                     e.MsgType) {
                     case confFactory.MSGTYPE_TEXT:
@@ -2907,7 +3084,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     t === -1 && (accountFactory.setSConvCount(accountFactory.getSConvCount() + 1),
                     _SChatList.push(e.ToUserName))
                 },
-                _postMessage: function(url, data, msg) {
+                _postMessage: function(url, data, msg) { // 发送消息请求
                     data.FromUserName = msg.FromUserName,
                     data.ToUserName = msg.ToUserName,
                     data.LocalID = msg.LocalID,
@@ -2944,7 +3121,7 @@ webpackJsonp([1], [function(e, exports, t) {
                         msg.MMStatus = confFactory.MSG_SEND_STATUS_FAIL
                     })
                 },
-                postTextMessage: function(e) {
+                postTextMessage: function(e) { // 发送文本消息
                     var t = {
                         Type: confFactory.MSGTYPE_TEXT,
                         Content: e.MMSendContent
@@ -2954,7 +3131,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     t.Content = e.OriContent),
                     this._postMessage(confFactory.API_webwxsendmsg, t, e)
                 },
-                postImgMessage: function(e) {
+                postImgMessage: function(e) { // 发送图片消息
                     var t = {
                         Type: confFactory.MSGTYPE_IMAGE,
                         MediaId: e.MediaId,
@@ -2962,7 +3139,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     };
                     this._postMessage(confFactory.API_webwxsendmsgimg + "?fun=async&f=json", t, e)
                 },
-                postVideoMessage: function(e) {
+                postVideoMessage: function(e) {  // 发送视频消息
                     var t = {
                         Type: confFactory.MSGTYPE_VIDEO,
                         MediaId: e.MediaId,
@@ -2970,7 +3147,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     };
                     this._postMessage(confFactory.API_webwxsendmsgvedio + "?fun=async&f=json", t, e)
                 },
-                postMicroVideoMessage: function(e) {
+                postMicroVideoMessage: function(e) { // 发送小视频消息
                     var t = {
                         Type: confFactory.MSGTYPE_MICROVIDEO,
                         MediaId: e.MediaId,
@@ -2978,7 +3155,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     };
                     this._postMessage(confFactory.API_webwxsendmsgvedio + "?fun=async&f=json", t, e)
                 },
-                postAppMessage: function(e) {
+                postAppMessage: function(e) {  // 发送app消息
                     var t;
                     if (t = {
                         Signature: e.Signature,
@@ -2991,7 +3168,7 @@ webpackJsonp([1], [function(e, exports, t) {
                         t.Content = e.OriContent || e.Content;
                     this._postMessage(confFactory.API_webwxsendappmsg + "?fun=async&f=json" + (confFactory.isClientVersion ? "&mod=desktop" : ""), t, e)
                 },
-                postEmoticonMessage: function(e) {
+                postEmoticonMessage: function(e) { // 发送表情消息
                     var t = {
                         Type: confFactory.MSGTYPE_EMOTICON,
                         EmojiFlag: e.EmojiFlag,
@@ -3001,7 +3178,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     e.MMSourceMsgId && "undefined" != typeof e.MMStatus && e.MMStatus != confFactory.MSG_SEND_STATUS_SUCC && (e.MMPreviewSrc = confFactory.API_webwxgetmsgimg + "?&MsgID=" + e.MMSourceMsgId + "&skey=" + encodeURIComponent(accountFactory.getSkey()) + "&type=big"),
                     this._postMessage(confFactory.API_webwxsendemoticon + "?fun=sys", t, e)
                 },
-                initChatList: function(e) {
+                initChatList: function(e) {  // 初始化聊天列表
                     var t = this
                       , a = e.split(",");
                     angular.forEach(a, function(e, t) {
@@ -3013,7 +3190,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     }),
                     t.getChatList()
                 },
-                addChatList: function(e) {
+                addChatList: function(e) {  // 增加聊天列表
                     var t = this;
                     e && (angular.isArray(e) || (e = [e]),
                     angular.forEach(e, function(e, t) {
@@ -3032,7 +3209,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     t.getChatList(),
                     $rootScope.$broadcast("chat:add:success"))
                 },
-                deleteChatList: function(e) {
+                deleteChatList: function(e) { // 删除聊天列表
                     var t = this;
                     e && (angular.isArray(e) || (e = [e]),
                     angular.forEach(e, function(e, t) {
@@ -3041,7 +3218,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     }),
                     t.getChatList())
                 },
-                getChatList: function() {
+                getChatList: function() { // 获取聊天列表
                     var e = this
                       , t = [];
                     return _chatListInfos.length = 0,
@@ -3067,12 +3244,12 @@ webpackJsonp([1], [function(e, exports, t) {
                     [].push.apply(_chatListInfos, handleChatList(t)),
                     _chatListInfos
                 },
-                _getLastMessage: function(e) {
+                _getLastMessage: function(e) { // 获取最近的消息
                     var t = this
                       , a = t.getChatMessage(e);
                     return a.length ? a[a.length - 1] : {}
                 },
-                addChatMessage: function(e) {
+                addChatMessage: function(e) {  // 增加聊天消息
                     if (e) {
                         var t = this
                           , a = (e.FromUserName,
@@ -3085,14 +3262,14 @@ webpackJsonp([1], [function(e, exports, t) {
                         t.getChatList())
                     }
                 },
-                getMsg: function(e) {
+                getMsg: function(e) {   // 获取消息
                     return _msgMap[e]
                 },
-                deleteChatMessage: function(e) {
+                deleteChatMessage: function(e) { // 删除聊天消息
                     _chatMessages[e] = []
                 },
-                updateChatMessage: function(e) {},
-                showMessage: function(e, t, a) {
+                updateChatMessage: function(e) {}, // 更新聊天消息
+                showMessage: function(e, t, a) { //显示聊天消息
                     if (e)
                         t.DisplayName = e;
                     else {
@@ -3100,10 +3277,10 @@ webpackJsonp([1], [function(e, exports, t) {
                         n && n.DisplayName ? t.DisplayName = n.DisplayName : t.DisplayName = t.MMActualSender
                     }
                 },
-                updateMessage: function(e, t, a) {
+                updateMessage: function(e, t, a) { // 更新消息
                     angular.extend(e[t], a)
                 },
-                getChatMessage: function(e, t) {
+                getChatMessage: function(e, t) { // 获取聊天消息
                     var a = this;
                     return t && (_currentUserName = e,
                     a.markMsgsRead(e)),
@@ -3119,10 +3296,10 @@ webpackJsonp([1], [function(e, exports, t) {
                     n.clearChatNoticeCount(),
                     _chatMessages[e] ? _chatMessages[e].slice(t, a) : []
                 },
-                setCurrentUnread: function(e, t) {
+                setCurrentUnread: function(e, t) { //设置当前未读数
                     _currentUnreadMap[e] = t
                 },
-                getUnreadMsgsCount: function(e) {
+                getUnreadMsgsCount: function(e) { // 获取消息未读数
                     var t, a = 0;
                     if (_currentUnreadMap[e])
                         return _currentUnreadMap[e];
@@ -3131,14 +3308,14 @@ webpackJsonp([1], [function(e, exports, t) {
                             t[n].MMUnread && ++a;
                     return a
                 },
-                markMsgsRead: function(e) {
+                markMsgsRead: function(e) { // 标记消息已读
                     for (var t = this.getChatMessage(e), a = !1, n = 0, i = t.length; n < i; n++)
                         t[n].MMUnread && (a = !0),
                         t[n].MMUnread = !1;
                     return this.setCurrentUnread(e, 0),
                     a
                 },
-                messageProcess: function(e) {
+                messageProcess: function(e) { // 消息处理
                     var t = this
                       , a = contactFactory.getContact(e.FromUserName, "", !0);
                     if (!a || a.isMuted() || a.isSelf() || a.isShieldUser() || a.isBrandContact() || titleRemind.increaseUnreadMsgNum(),
@@ -3544,7 +3721,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     n.splice(t, 1),
                     a.getChatList()
                 },
-                revokemsg: function(e) {
+                revokemsg: function(e) { // 撤回消息
                     var t = this;
                     $http({
                         method: "POST",
@@ -3621,28 +3798,42 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function(e) {
         "use strict";
-        angular.module("Services").factory("chatroomFactory", ["$rootScope", "$timeout", "$http", "$q", "contactFactory", "accountFactory", "emojiFactory", "confFactory", "utilFactory", "reportService", "mmHttp", function(e, t, a, n, i, o, r, c, s, l, d) {
-            var f, u = {}, m = {
-                setCurrentContact: function(e) {
+        angular.module("Services").factory("chatroomFactory", [
+            "$rootScope",  // e
+            "$timeout",  // t
+            "$http",  // a
+            "$q",  // n
+            "contactFactory",  // i
+            "accountFactory",  // o
+            "emojiFactory",  // r
+            "confFactory",  // c
+            "utilFactory", // s
+            "reportService", // l
+            "mmHttp", // d
+            function(e, t, a, n, i, o, r, c, s, l, d) {
+            var f, 
+            u = {}, 
+            m = {
+                setCurrentContact: function(e) { // 设置当前联系人
                     f = e
                 },
-                getCurrentContact: function() {
+                getCurrentContact: function() { // 获取当前联系人
                     return f
                 },
-                setFilterContacts: function(e) {
+                setFilterContacts: function(e) { //设置筛选联系人
                     u = e || {}
                 },
-                getFilterContacts: function() {
+                getFilterContacts: function() { // 获取筛选联系人
                     return u
                 },
-                create: function(e) {
+                create: function(e) { // 创建
                     var t = n.defer()
                       , i = angular.extend({
                         MemberCount: e.length,
                         MemberList: e,
                         Topic: ""
-                    }, o.getBaseRequest());
-                    return a({
+                    }, o.getBaseRequest()); // accountFactory
+                    return a({ // $http
                         method: "POST",
                         url: c.API_webwxcreatechatroom + "?r=" + s.now(),
                         data: i
@@ -3664,7 +3855,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     }),
                     t.promise
                 },
-                addMember: function(e, t, a) {
+                addMember: function(e, t, a) { // 添加组员
                     var n = i.getContact(e);
                     n.MemberList.length + t.split(",").length >= 40 ? this._update("invitemember", e, {
                         inviteMembers: t
@@ -3672,21 +3863,21 @@ webpackJsonp([1], [function(e, exports, t) {
                         addMembers: t
                     }, a)
                 },
-                delMember: function(e, t) {
+                delMember: function(e, t) { // 删除组员
                     this._update("delmember", e, {
                         delMember: t
                     });
                     i.getContact(e)
                 },
-                quit: function(e) {
+                quit: function(e) { // 退出
                     this._update("quitchatroom", e)
                 },
-                modTopic: function(e, t) {
+                modTopic: function(e, t) { // 修改公告
                     this._update("modtopic", e, {
                         topic: t
                     })
                 },
-                _update: function(e, t, n, r) {
+                _update: function(e, t, n, r) { // 更新
                     n = n || {};
                     var s = angular.extend({
                         AddMemberList: n.addMembers,
@@ -3725,11 +3916,29 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("accountFactory", ["$q", "confFactory", "utilFactory", function(e, t, a) {
-            var n, i, o, r = {}, c = null, s = null, l = {
+        angular.module("Services").factory("accountFactory", [
+            "$q",  // e
+            "confFactory", // t
+            "utilFactory",  // a
+            function(e, t, a) {
+            var n, 
+            i, 
+            o, 
+            r = {}, 
+            c = null, 
+            s = null, 
+            l = {
                 type: "",
                 ver: ""
-            }, d = "" === a.getCookie("MM_WX_NOTIFY_STATE") ? t.MM_NOTIFY_OPEN : a.getCookie("MM_WX_NOTIFY_STATE"), f = "" === a.getCookie("MM_WX_SOUND_STATE") ? t.MM_SOUND_OPEN : a.getCookie("MM_WX_SOUND_STATE"), u = 0, m = 0, g = 0, p = 0, h = 0, M = {
+            }, 
+            d = "" === a.getCookie("MM_WX_NOTIFY_STATE") ? t.MM_NOTIFY_OPEN : a.getCookie("MM_WX_NOTIFY_STATE"), 
+            f = "" === a.getCookie("MM_WX_SOUND_STATE") ? t.MM_SOUND_OPEN : a.getCookie("MM_WX_SOUND_STATE"), 
+            u = 0, 
+            m = 0, 
+            g = 0, 
+            p = 0, 
+            h = 0, 
+            M = {
                 openNotify: function() {
                     d = t.MM_NOTIFY_OPEN,
                     a.setCookie("MM_WX_NOTIFY_STATE", t.MM_NOTIFY_OPEN)
@@ -3875,7 +4084,9 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("confFactory", ["$q", function(e) {
+        angular.module("Services").factory("confFactory", [
+            "$q", 
+            function(e) {
             var t = location.host
               , a = "login.weixin.qq.com"
               , n = "file.wx.qq.com"
@@ -4111,7 +4322,19 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("contactFactory", ["$rootScope", "$http", "$q", "$timeout", "confFactory", "accountFactory", "emojiFactory", "utilFactory", "resourceService", "reportService", "mmHttp", function(e, t, a, n, i, o, r, c, s, l, d) {
+        angular.module("Services").factory("contactFactory", [
+            "$rootScope",  // e
+            "$http", // t
+            "$q", // a
+            "$timeout",  // n
+            "confFactory", // i
+            "accountFactory",  // o
+            "emojiFactory", // r
+            "utilFactory",  // c
+            "resourceService", // s
+            "reportService", // l
+            "mmHttp", // d
+            function(e, t, a, n, i, o, r, c, s, l, d) {
             function f(e) {
                 return e = angular.extend({
                     RemarkPYQuanPin: "",
@@ -4122,7 +4345,22 @@ webpackJsonp([1], [function(e, exports, t) {
                 e.HeadImgUrl || (e.HeadImgUrl = i.API_webwxgeticon + "?seq=0&username=" + e.UserName + "&skey=" + o.getSkey()),
                 e
             }
-            var u, m = window._contacts = {}, g = window._strangerContacts = {}, p = [], h = [], M = [], v = [], y = window._chatRoomMemberDisplayNames = {}, b = [], C = [], w = [], S = {}, T = {}, N = 0, E = ["fmessage"], G = {
+            var u, 
+            m = window._contacts = {}, 
+            g = window._strangerContacts = {}, 
+            p = [], 
+            h = [], 
+            M = [], 
+            v = [], 
+            y = window._chatRoomMemberDisplayNames = {}, 
+            b = [], 
+            C = [], 
+            w = [], 
+            S = {}, 
+            T = {}, 
+            N = 0, 
+            E = ["fmessage"], 
+            G = {
                 isSelf: function() {
                     return o.getUserName() == this.UserName
                 },
@@ -4239,7 +4477,8 @@ webpackJsonp([1], [function(e, exports, t) {
                 update: function(e) {
                     e && angular.extend(this, e)
                 }
-            }, k = {
+            }, 
+            k = {
                 contactChangeFlag: "",
                 setCurrentContact: function(e) {
                     u = e
@@ -4716,9 +4955,18 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("loginFactory", ["$http", "$q", "$timeout", "accountFactory", "confFactory", "utilFactory", "mmHttp", "reportService", function(e, t, a, n, i, o, r, c) {
+        angular.module("Services").factory("loginFactory", [
+            "$http", // e
+            "$q", // t
+            "$timeout", // a
+            "accountFactory", // n
+            "confFactory", // i
+            "utilFactory", // o
+            "mmHttp", // r
+            "reportService", // c
+            function(e, t, a, n, i, o, r, c) {
             var s = {
-                getUUID: function() {
+                getUUID: function() { // 获取UUID
                     var e = t.defer();
                     return window.QRLogin = {},
                     $.ajax({
@@ -4732,7 +4980,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     }),
                     e.promise
                 },
-                getQrcode: function(e) {},
+                getQrcode: function(e) {}, // 获取二维码
                 checkLogin: function(e, a) {
                     var n = t.defer()
                       , a = a || 0;
@@ -4817,7 +5065,11 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports, t) {
     !function() {
         "use strict";
-        angular.module("Services").factory("utilFactory", ["$q", "$rootScope", "confFactory", function(e, a, n) {
+        angular.module("Services").factory("utilFactory", [
+            "$q", 
+            "$rootScope", 
+            "confFactory", 
+            function(e, a, n) {
             function i(e, t, a, n) {
                 var i;
                 (i = d[e]) ? (i.intervalSum += a,
@@ -4836,7 +5088,12 @@ webpackJsonp([1], [function(e, exports, t) {
                 })
             }
             window.isFocus = !0;
-            var o, r = {}, c = "(\\s|\\n|<br>|^)(http(s)?://.)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?(&|&amp;)//=]*)", s = ["weibo", "qqmail", "fmessage", "tmessage", "qmessage", "qqsync", "floatbottle", "lbsapp", "shakeapp", "medianote", "qqfriend", "readerapp", "blogapp", "facebookapp", "masssendapp", "meishiapp", "feedsapp", "voip", "blogappweixin", "weixin", "brandsessionholder", "weixinreminder", "wxid_novlwrv3lqwv11", "gh_22b87fa7cb3c", "officialaccounts", "notification_messages"], l = ["newsapp", "wxid_novlwrv3lqwv11", "gh_22b87fa7cb3c", "notification_messages"], d = {};
+            var o, 
+            r = {}, 
+            c = "(\\s|\\n|<br>|^)(http(s)?://.)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?(&|&amp;)//=]*)", 
+            s = ["weibo", "qqmail", "fmessage", "tmessage", "qmessage", "qqsync", "floatbottle", "lbsapp", "shakeapp", "medianote", "qqfriend", "readerapp", "blogapp", "facebookapp", "masssendapp", "meishiapp", "feedsapp", "voip", "blogappweixin", "weixin", "brandsessionholder", "weixinreminder", "wxid_novlwrv3lqwv11", "gh_22b87fa7cb3c", "officialaccounts", "notification_messages"], 
+            l = ["newsapp", "wxid_novlwrv3lqwv11", "gh_22b87fa7cb3c", "notification_messages"], 
+            d = {};
             window.onfocus = function() {
                 window.isFocus = !0
             }
@@ -5176,7 +5433,12 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("emojiFactory", ["$http", "$q", "confFactory", "utilFactory", function(e, t, a, n) {
+        angular.module("Services").factory("emojiFactory", [
+            "$http", 
+            "$q", 
+            "confFactory", 
+            "utilFactory", 
+            function(e, t, a, n) {
             var i = {
                 formatHTMLToSend: function(e) {
                     var t = this;
@@ -6266,7 +6528,10 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("contextMenuFactory", ["$timeout", "confFactory", function(e, t) {
+        angular.module("Services").factory("contextMenuFactory", [
+            "$timeout", 
+            "confFactory", 
+            function(e, t) {
             var a, n = "", i = {
                 getContextMenuEventTimeStamp: function(e) {
                     return n
@@ -6288,7 +6553,10 @@ webpackJsonp([1], [function(e, exports, t) {
     !function() {
         "use strict";
         // 截屏
-        angular.module("Services").factory("screenShotFactory", ["confFactory", "reportService", function(e, t) {
+        angular.module("Services").factory("screenShotFactory", [
+            "confFactory", 
+            "reportService", 
+            function(e, t) {
             function a() {
                 return l || (l = QMActivex.create(c))
             }
@@ -6364,7 +6632,9 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("notificationFactory", ["utilFactory", function(e) {
+        angular.module("Services").factory("notificationFactory", [
+            "utilFactory", 
+            function(e) {
             function t(e, t) {
                 var a;
                 return window.Notification ? a = new window.Notification(e,{
@@ -6462,7 +6732,12 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function(e) {
         "use strict";
-        angular.module("Services").factory("resourceService", ["$timeout", "$http", "$q", "$window", function(e, t, a, n) {
+        angular.module("Services").factory("resourceService", [
+            "$timeout", 
+            "$http", 
+            "$q", 
+            "$window",
+             function(e, t, a, n) {
             function i(t, a, n) {
                 if (t instanceof Array || (t = [t]),
                 !(t.length > 0))
@@ -6483,7 +6758,7 @@ webpackJsonp([1], [function(e, exports, t) {
             }
             function o() {}
             var r = !1;
-            $(n).on("load", function() {
+            $(n).on("load", function() { // $window
                 r = !0,
                 o()
             });
@@ -6501,7 +6776,10 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("stateManageService", ["$http", "$q", function(e, t) {
+        angular.module("Services").factory("stateManageService", [
+            "$http", 
+            "$q", 
+            function(e, t) {
             function a(e) {
                 if ("object" == typeof e)
                     for (var t in e)
@@ -6584,7 +6862,11 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("oplogFactory", ["$http", "accountFactory", "confFactory", function(e, t, a) {
+        angular.module("Services").factory("oplogFactory", [
+            "$http", 
+            "accountFactory", 
+            "confFactory",
+             function(e, t, a) {
             return {
                 feedback: function(n) {
                     e({
@@ -6605,7 +6887,12 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Services").factory("reportService", ["$http", "$rootScope", "confFactory", "accountFactory", function(e, t, a, n) {
+        angular.module("Services").factory("reportService", [
+            "$http", 
+            "$rootScope", 
+            "confFactory", 
+            "accountFactory", 
+            function(e, t, a, n) {
             function i() {
                 var e, t = {};
                 return t.appTiming = G,
@@ -7255,10 +7542,10 @@ webpackJsonp([1], [function(e, exports, t) {
 }
 , function(e, exports) {
     angular.module("Directives").directive("mmpopDirective", [
-        "$timeout", 
-        "$document", 
-        "mmpop", 
-        "$animate", 
+        "$timeout",         // e
+        "$document",    // t
+        "mmpop",    // a
+        "$animate", // n
         function(e, t, a, n) {
         return {
             restrict: "EA",
@@ -7268,7 +7555,7 @@ webpackJsonp([1], [function(e, exports, t) {
     }
     ]).provider("mmpop", function() {
         var e = angular.element
-          , t = (angular.isDefined,
+          , t = (angular.isDefined,         // 检测引用是否已定义
         (document.body || document.documentElement).style,
         this.defaults = {
             className: "",
@@ -7298,8 +7585,8 @@ webpackJsonp([1], [function(e, exports, t) {
             "$controller", // m 
             "$animate",// g
              function(o, r, c, s, l, d, f, u, m, g) {
-            var p = o.find("body") //$document
-              , h = {
+            var p = o.find("body"),  //$document
+            h = { // 关闭弹窗
                 onDocumentKeydown: function(e) {
                     27 === e.keyCode && M.close("$escape")
                 },
@@ -7327,7 +7614,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     h.performClosePop(e, t)
                 }
             }
-              , M = {
+            , M = {
                 open: function(l) {
                     var u = this
                       , v = angular.copy(t);
@@ -7412,32 +7699,46 @@ webpackJsonp([1], [function(e, exports, t) {
     })
 }
 , function(e, exports) {
-    angular.module("Directives").directive("contenteditableDirective", ["$timeout", "utilFactory", "confFactory", function(e, t, a) {
+    angular.module("Directives").directive("contenteditableDirective", [
+        "$timeout",     // e
+        "utilFactory",  // t
+        "confFactory",  // a
+        function(e, t, a) {
         return {
             restrict: "A",
-            require: "?ngModel",
-            link: function(e, n, i, o) {
+            require: "?ngModel",  /*require参数指明需要依赖的指令*/
+            link: function(e, n, i, o) {  // function link(scope, element, attrs, controller) { ... }
                 function r(e) {
-                    return e.replace(new RegExp("^(<(table|tbody|p|tr|h[1-6])[^<>]*>)+","g"), "").replace(new RegExp("<td[^<>]*>(<(table|tbody|p|tr|h[1-6])[^<>]*>)*|(</(table|tbody|p|h[1-6])>)*</td>","g"), "  ").replace(new RegExp("(</(table|tbody|p|tr|h[1-6])>+)<(table|tbody|p|tr|h[1-6])[^<>]*>+","g"), "<br/>").replace(new RegExp("(<(table|tbody|p|tr|h[1-6])[^<>]*>)+|(</(table|tbody|p|tr|h[1-6])>)+","g"), "<br/>")
+                    return e.replace(new RegExp("^(<(table|tbody|p|tr|h[1-6])[^<>]*>)+","g"), "")   // 替换table、tbody、p、tr、h1-6元素的开始标签相连的标签
+                    .replace(new RegExp("<td[^<>]*>(<(table|tbody|p|tr|h[1-6])[^<>]*>)*|(</(table|tbody|p|h[1-6])>)*</td>","g"), "  ")// 替换table、tbody、p、tr、h1-6元素的结束标签相连的标签
+                    .replace(new RegExp("(</(table|tbody|p|tr|h[1-6])>+)<(table|tbody|p|tr|h[1-6])[^<>]*>+","g"), "<br/>")
+                    .replace(new RegExp("(<(table|tbody|p|tr|h[1-6])[^<>]*>)+|(</(table|tbody|p|tr|h[1-6])>)+","g"), "<br/>")
                 }
                 function c() {
                     e.$apply(function() {
                         var e;
-                        e = n.html(),
-                        o.$setViewValue(e)
+                        e = n.html(), // 获取元素的html
+                        o.$setViewValue(e)  // ngModel设置视图
                     })
                 }
-                if (o) {
+                if (o) {  // o 为controller参数，是传进来的ngModel
                     var s;
-                    n.bind("paste", function() {
+                    n.bind("paste", function() { // 绑定paste事件
                         var e = this
                           , i = e.innerHTML;
                         s && clearTimeout(s),
-                        s = setTimeout(function() {
-                            for (var c = e.innerHTML, l = -1, d = -1, f = 0, u = c.length; f < u && (l == -1 && i.substr(f, 1) != c.substr(f, 1) && (l = f),
-                            d == -1 && i.substr(i.length - f - 1, 1) != c.substr(c.length - f - 1, 1) && (d = f),
-                            !(l != -1 && d != -1 || u - 1 - d <= l)); ++f)
-                                ;
+                        s = setTimeout(function() { //setTimeout
+                            for (
+                                var c = e.innerHTML,   // 获取元素的html
+                                l = -1, 
+                                d = -1, 
+                                f = 0, 
+                                u = c.length; 
+                                f < u && (l == -1 && i.substr(f, 1) != c.substr(f, 1) && (l = f),
+                                d == -1 && i.substr(i.length - f - 1, 1) != c.substr(c.length - f - 1, 1) && (d = f),
+                                !(l != -1 && d != -1 || u - 1 - d <= l)); 
+                                ++f
+                            );
                             if (l != -1 && d != -1) {
                                 if (d = u - 1 - d,
                                 d <= l) {
@@ -7456,28 +7757,42 @@ webpackJsonp([1], [function(e, exports, t) {
                                   , h = c.substr(l + g.length)
                                   , M = p.lastIndexOf("<")
                                   , v = p.lastIndexOf(">");
+
                                 if (v < M && (g = p.slice(M) + g,
-                                p = p.slice(0, M)),
-                                M = g.lastIndexOf("<"),
-                                v = g.lastIndexOf(">"),
-                                v < M) {
+                                    p = p.slice(0, M)),
+                                    M = g.lastIndexOf("<"),
+                                    v = g.lastIndexOf(">"),
+                                    v < M)
+                                 {
                                     var y = h.indexOf(">") + 1;
                                     g += h.slice(0, y),
                                     h = h.slice(y)
                                 }
-                                var b = r(g).replace(/&nbsp;/g, " ").replace(new RegExp("<(?!br|" + a.EMOTICON_REG + ").*?>","g"), "").replace(new RegExp("&lt;(br|" + a.EMOTICON_REG + "/?)&gt;","g"), "<$1>").replace(/<img.*?class="(.*?)" text="(.*?)" .*?>/g, function() {
-                                    return t.genEmoticonHTML(arguments[1], arguments[2])
+
+                                var b = r(g)
+                                .replace(/&nbsp;/g, " ")
+                                .replace(new RegExp("<(?!br|" + a.EMOTICON_REG + ").*?>","g"), "")
+                                .replace(new RegExp("&lt;(br|" + a.EMOTICON_REG + "/?)&gt;","g"), "<$1>")
+                                .replace(/<img.*?class="(.*?)" text="(.*?)" .*?>/g, function() {
+                                    return t.genEmoticonHTML(arguments[1], arguments[2])    //utilFactory的genEmoticon HTML
                                 }).replace(/<img [^<>]*src="([^<>"]+)"[^<>]*>/g, function(e, t) {
                                     return e.replace(location.origin || location.protocol + "//" + location.hostname + (location.port ? ":" + location.port : ""), "")
                                 });
+
                                 e.innerHTML = p + b + "<span class='pasteCaretPosHelper'></span>" + h;
-                                var C, w, S = n.find(".pasteCaretPosHelper")[0];
-                                S && (document.createRange ? (C = document.createRange(),
-                                C.setStartAfter(S),
-                                C.collapse(!1),
-                                w = window.getSelection(),
-                                w.removeAllRanges(),
-                                w.addRange(C)) : document.selection && (C = document.body.createTextRange(),
+                                var C, 
+                                    w, 
+                                    S = n.find(".pasteCaretPosHelper")[0];
+
+                                S && (document.createRange ? (  // 有pasteCaretPosHelper元素
+                                    C = document.createRange(),
+                                    C.setStartAfter(S),
+                                    C.collapse(!1),
+                                    w = window.getSelection(),
+                                    w.removeAllRanges(),
+                                    w.addRange(C)
+                                ) : 
+                                document.selection && (C = document.body.createTextRange(),  // C createTextRange()
                                 C.moveToElementText(S),
                                 C.collapse(!1),
                                 C.select()),
@@ -7487,8 +7802,8 @@ webpackJsonp([1], [function(e, exports, t) {
                             }
                         }, 50)
                     }),
-                    t.browser.msie ? n.bind("keyup paste", c) : n.bind("input", c);
-                    var l = o.$render;
+                    t.browser.msie ? n.bind("keyup paste", c) : n.bind("input", c); //绑定input事件
+                    var l = o.$render; // ngModel的$render方法
                     o.$render = function() {
                         l && l(),
                         n.html() != o.$viewValue && n.html(o.$viewValue || "")
@@ -7502,7 +7817,10 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Directives").directive("miniUserProfileDirective", ["$timeout", "confFactory", function(e, t) {
+        angular.module("Directives").directive("miniUserProfileDirective", [
+            "$timeout", 
+            "confFactory", 
+            function(e, t) {
             return {
                 restrict: "A",
                 templateUrl: "miniUserProfile.html",
@@ -7516,7 +7834,10 @@ webpackJsonp([1], [function(e, exports, t) {
                 link: function(e, t, a) {}
             }
         }
-        ]).directive("userProfileDirective", ["$timeout", "confFactory", function(e, t) {
+        ]).directive("userProfileDirective", [
+            "$timeout",  // e
+            "confFactory", // t
+            function(e, t) {
             return {
                 restrict: "A",
                 scope: {
@@ -7532,7 +7853,10 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Directives").directive("contactListDirective", ["$timeout", "confFactory", function(e, t) {
+        angular.module("Directives").directive("contactListDirective", [
+            "$timeout", 
+            "confFactory", 
+            function(e, t) {
             return {
                 restrict: "A",
                 templateUrl: "contactList.html",
@@ -7554,7 +7878,10 @@ webpackJsonp([1], [function(e, exports, t) {
                 }
             }
         }
-        ]).directive("contactListChooserDirective", ["$timeout", "confFactory", function(e, t) {
+        ]).directive("contactListChooserDirective", [
+            "$timeout", 
+            "confFactory", 
+            function(e, t) {
             return {
                 restrict: "A",
                 templateUrl: "contactListChooser.html",
@@ -7596,7 +7923,10 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Directives").directive("contactItemDirective", ["$timeout", "confFactory", function(e, t) {
+        angular.module("Directives").directive("contactItemDirective", [
+            "$timeout", 
+            "confFactory", 
+            function(e, t) {
             return {
                 restrict: "A",
                 templateUrl: "contactItem.html",
@@ -7611,7 +7941,10 @@ webpackJsonp([1], [function(e, exports, t) {
                 link: function(e, t, a) {}
             }
         }
-        ]).directive("contactItemChooserDirective", ["$timeout", "confFactory", function(e, t) {
+        ]).directive("contactItemChooserDirective", [
+            "$timeout", 
+            "confFactory", 
+            function(e, t) {
             return {
                 restrict: "A",
                 templateUrl: "contactItemChooser.html",
@@ -7631,7 +7964,11 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function() {
         "use strict";
-        angular.module("Directives").directive("contextMenuDirective", ["$timeout", "$document", "confFactory", function(e, t, a) {
+        angular.module("Directives").directive("contextMenuDirective", [
+            "$timeout", 
+            "$document", 
+            "confFactory", 
+            function(e, t, a) {
             return {
                 restrict: "A",
                 templateUrl: "contextMenu.html",
@@ -7647,7 +7984,10 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports) {
     !function(e, t) {
         "use strict";
-        e.module("Directives").directive("scrollGlue", ["$parse", "$timeout", function(e, a) {
+        e.module("Directives").directive("scrollGlue", [
+            "$parse",  // e
+            "$timeout",  // a
+            function(e, a) {
             function n(e) {
                 var t = e;
                 return {
@@ -7689,7 +8029,7 @@ webpackJsonp([1], [function(e, exports, t) {
             return {
                 priority: 1,
                 restrict: "A",
-                link: function(e, t, n) {
+                link: function(e, t, n) { // function link(scope, element, attrs, controller) { ... }
                     function i() {
                         l.scrollTop = l.scrollHeight
                     }
@@ -7707,7 +8047,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     var l = t[0]
                       , d = r(n.scrollGlue, e);
                     e.$watch(o),
-                    t.bind("scroll", s)
+                    t.bind("scroll", s) // 元素绑定scroll事件
                 }
             }
         }
@@ -7717,12 +8057,15 @@ webpackJsonp([1], [function(e, exports, t) {
 , function(e, exports, t) {
     !function(e) {
         "use strict";
-        angular.module("Directives").directive("jplayerDirective", ["$timeout", "utilFactory", function(a, n) {
+        angular.module("Directives").directive("jplayerDirective", [
+            "$timeout", 
+            "utilFactory", 
+            function(a, n) {
             return {
                 restrict: "A",
                 link: function(i, o, r) {
                     function c() {
-                        t.e(2, function(require) {
+                        t.e(2, function(require) { // 初始化jPlayer
                             t(278);
                             jQuery(o).jPlayer({
                                 ready: function() {
@@ -7792,7 +8135,11 @@ webpackJsonp([1], [function(e, exports, t) {
     }()
 }
 , function(e, exports) {
-    angular.module("Directives").directive("previewDirective", ["$document", "confFactory", "utilFactory", function(e, t, a) {
+    angular.module("Directives").directive("previewDirective", [
+        "$document", 
+        "confFactory", 
+        "utilFactory", 
+        function(e, t, a) {
         return {
             restrict: "EA",
             templateUrl: "preview.html",
@@ -7800,7 +8147,7 @@ webpackJsonp([1], [function(e, exports, t) {
                 imageList: "=",
                 current: "="
             },
-            link: function(n, i, o) {
+            link: function(n, i, o) { // function link(scope, element, attrs, controller) { ... }
                 function r(e) {
                     switch (e.keyCode) {
                     case t.KEYCODE_ARROW_UP:
@@ -7960,7 +8307,7 @@ webpackJsonp([1], [function(e, exports, t) {
                 n.isLoaded = !1,
                 n.rotateDeg = 0,
                 n.isIE = !!(a.browser.msie && a.version < 10),
-                n.actions = {
+                n.actions = { // 图片操作
                     next: function() {
                         n.current < n.imageList.length - 1 && (n.current++,
                         u())
@@ -7969,7 +8316,7 @@ webpackJsonp([1], [function(e, exports, t) {
                         n.current > 0 && (n.current--,
                         u())
                     },
-                    rotate: function() {
+                    rotate: function() { // 图片翻转
                         n.rotateDeg = (n.rotateDeg + 90) % 360,
                         s({
                             scale: E.scale
@@ -8092,9 +8439,9 @@ webpackJsonp([1], [function(e, exports, t) {
     }),
     angular.module("jQueryScrollbar", []).directive("jqueryScrollbar", function() {
         return {
-            link: function(e, t) {
-                setTimeout(function() {
-                    t.scrollbar({
+            link: function(e, t) { // function link(scope, element, attrs, controller) { ... }
+                setTimeout(function() { 
+                    t.scrollbar({ // 元素scrollbar事件
                         test: "test",
                         type: "simpble",
                         onScroll: function(t, a) {
@@ -8352,8 +8699,8 @@ webpackJsonp([1], [function(e, exports, t) {
                 scope: {
                     ngDialogScope: "="
                 },
-                link: function(a, n, i) {
-                    n.on("click", function(n) {
+                link: function(a, n, i) { // function link(scope, element, attrs, controller) { ... }
+                    n.on("click", function(n) { // 绑定click事件
                         n.preventDefault();
                         var o = e.isDefined(a.ngDialogScope) ? a.ngDialogScope : "noScope";
                         e.isDefined(i.ngDialogClosePrevious) && t.close(i.ngDialogClosePrevious);
@@ -8377,135 +8724,140 @@ webpackJsonp([1], [function(e, exports, t) {
     })
 }
 , function(e, exports) {
-    angular.module("Directives").directive("mmRepeat", ["$document", "$compile", "$rootScope", function(e, t, a) {
-        function n(e, t, a, n, i) {
-            var o, r, c = 0;
-            if (0 === e.length)
-                return 0;
-            if (a > n) {
-                for (var s = t; s > -1; s--)
+    angular.module("Directives").directive("mmRepeat", [
+        "$document",  // e
+        "$compile",  // t
+        "$rootScope",  // a
+        function(e, t, a) {
+            function n(e, t, a, n, i) {
+                var o, r, c = 0;
+                if (0 === e.length)
+                    return 0;
+                if (a > n) {
+                    for (var s = t; s > -1; s--)
+                        if (o = e[s],
+                        r = c,
+                        c += o._h || (o._h = i(o)),
+                        a - c < n)
+                            return {
+                                index: s,
+                                total: r
+                            };
+                    return {
+                        index: 0,
+                        total: 0
+                    }
+                }
+                for (var s = t; s < e.length; s++)
                     if (o = e[s],
                     r = c,
                     c += o._h || (o._h = i(o)),
-                    a - c < n)
+                    a + c > n)
                         return {
                             index: s,
                             total: r
                         };
                 return {
-                    index: 0,
-                    total: 0
+                    index: e.length - 1,
+                    total: c
                 }
             }
-            for (var s = t; s < e.length; s++)
-                if (o = e[s],
-                r = c,
-                c += o._h || (o._h = i(o)),
-                a + c > n)
-                    return {
-                        index: s,
-                        total: r
-                    };
-            return {
-                index: e.length - 1,
-                total: c
+            function i(e, t, a, n) {
+                if (0 === e.length || t === a)
+                    return 0;
+                for (var i, o = 0, r = t; r < a; r++)
+                    i = e[r],
+                    o += i._h || (i._h = n(i));
+                return o
             }
-        }
-        function i(e, t, a, n) {
-            if (0 === e.length || t === a)
-                return 0;
-            for (var i, o = 0, r = t; r < a; r++)
-                i = e[r],
-                o += i._h || (i._h = n(i));
-            return o
-        }
-        function o(e, t, a, o) {
-            var r, c, s, l, d, f = t.scroll - a, u = t.scroll + t.visible + a;
-            return f > 0 ? (d = n(e, 0, 0, f, o),
-            r = d.index,
-            f = d.total) : (r = 0,
-            f = 0),
-            c = n(e, r, f, u, o).index,
-            c = c >= e.length ? e.length - 1 : c,
-            s = i(e, 0, r, o),
-            l = i(e, c + 1, e.length, o),
-            {
-                topHeight: s,
-                bottomHeight: l,
-                startIndex: r,
-                endIndex: c
+            function o(e, t, a, o) {
+                var r, c, s, l, d, f = t.scroll - a, u = t.scroll + t.visible + a;
+                return f > 0 ? (d = n(e, 0, 0, f, o),
+                r = d.index,
+                f = d.total) : (r = 0,
+                f = 0),
+                c = n(e, r, f, u, o).index,
+                c = c >= e.length ? e.length - 1 : c,
+                s = i(e, 0, r, o),
+                l = i(e, c + 1, e.length, o),
+                {
+                    topHeight: s,
+                    bottomHeight: l,
+                    startIndex: r,
+                    endIndex: c
+                }
             }
-        }
-        function r(e, t, a, n) {
-            var i, r = o(n, t, e.bufferHeight, e.heightCalc);
-            e.bottomHeight = r.bottomHeight,
-            e.topHeight = r.topHeight,
-            a.length = 0,
-            i = n.slice(r.startIndex, r.endIndex + 1),
-            [].push.apply(a, i)
-        }
-        function c(e) {
-            if (!(e.length <= 0))
-                for (var t, a = 0, n = 0; n < e.length; n++)
-                    t = e[n],
-                    t._offsetTop = a,
-                    a += t._h
-        }
-        function s(e, t, a) {
-            if (!(e.length <= 0))
-                for (var n, i = 0; i < e.length; i++)
-                    n = e[i],
-                    n._h && !a || (n._h = t(n))
-        }
-        function l(e, t, a) {
-            var n = function(e) {
-                setTimeout(function() {
-                    a(e)
-                }, 0)
-            };
-            if (0 == e.length)
-                return void a(e);
-            for (var i, o = e.length, r = 0, c = 0; c < o; c++)
-                i = e[c],
-                i._h ? (r++,
-                r == o && n(e)) : t(i, function(t) {
-                    return function(a) {
-                        t._h = a,
-                        t._calcing = !1,
-                        r++,
-                        r == o && n(e)
-                    }
-                }(i))
-        }
-        function d(e) {
-            for (var t = !0, a = 0; a < e.length; a++)
-                e[a]._h || (t = !1);
-            return t
-        }
+            function r(e, t, a, n) {
+                var i, r = o(n, t, e.bufferHeight, e.heightCalc);
+                e.bottomHeight = r.bottomHeight,
+                e.topHeight = r.topHeight,
+                a.length = 0,
+                i = n.slice(r.startIndex, r.endIndex + 1),
+                [].push.apply(a, i)
+            }
+            function c(e) {
+                if (!(e.length <= 0))
+                    for (var t, a = 0, n = 0; n < e.length; n++)
+                        t = e[n],
+                        t._offsetTop = a,
+                        a += t._h
+            }
+            function s(e, t, a) {
+                if (!(e.length <= 0))
+                    for (var n, i = 0; i < e.length; i++)
+                        n = e[i],
+                        n._h && !a || (n._h = t(n))
+            }
+            function l(e, t, a) {
+                var n = function(e) {
+                    setTimeout(function() {
+                        a(e)
+                    }, 0)
+                };
+                if (0 == e.length)
+                    return void a(e);
+                for (var i, o = e.length, r = 0, c = 0; c < o; c++)
+                    i = e[c],
+                    i._h ? (r++,
+                    r == o && n(e)) : t(i, function(t) {
+                        return function(a) {
+                            t._h = a,
+                            t._calcing = !1,
+                            r++,
+                            r == o && n(e)
+                        }
+                    }(i))
+            }
+            function d(e) {
+                for (var t = !0, a = 0; a < e.length; a++)
+                    e[a]._h || (t = !1);
+                return t
+            }
         return {
             restrict: "EA",
             priority: 1e3,
             scope: !0,
             terminal: !0,
-            link: function(e, a, n) {
+            link: function(e, a, n) { // function link(scope, element, attrs, controller) { ... }
                 var i = []
                   , o = {
                     maxScroll: 0,
                     scroll: 0,
                     size: 0,
                     visible: 687
-                }
-                  , f = n.mmRepeat.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?\s*$/)
-                  , u = f[2]
-                  , m = (f[1],
+                }, 
+                //  mm-repeat="message in chatContent"
+                f = n.mmRepeat.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?\s*$/) // 元素的mmRepeat属性
+                  , u = f[2] // repeat数据  chatContent
+                  , m = (f[1],  // repeat的每个item message
                 '<div ng-style="{height:topHeight}" class="top-placeholder"></div><div ng-repeat="' + n.mmRepeat + '">' + a.html() + '</div><div ng-style="{height:bottomHeight}" class="bottom-placeholder"></div>')
-                  , g = t(m)(e);
+                  , g = t(m)(e); //$compile(m)(scope)
                 a.html(""),
                 a.append(g),
-                e.bufferHeight || (e.bufferHeight = 100),
+                e.bufferHeight || (e.bufferHeight = 100), //scope
                 n.preCalc && "false" !== n.preCalc ? e.preCalc = !0 : e.preCalc = !1,
                 e[u] = [],
-                e.$on("onScroll", function(t, a) {
+                e.$on("onScroll", function(t, a) { //绑定onScroll事件
                     return o = a.y,
                     e.heightCalc && 2 === e.heightCalc.length && !d(i) ? void l(i, e.heightCalc, function() {
                         d(i) && (c(i),
@@ -8548,7 +8900,11 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("mmRepeatKeyboard", ["$timeout", "utilFactory", "confFactory", function(e, t, a) {
+    angular.module("Directives").directive("mmRepeatKeyboard", [
+        "$timeout", 
+        "utilFactory", 
+        "confFactory", 
+        function(e, t, a) {
         return {
             restrict: "A",
             priority: 1001,
@@ -8650,7 +9006,7 @@ webpackJsonp([1], [function(e, exports, t) {
     angular.module("Directives").directive("searchListDirective", [function() {
         return {
             restrict: "A",
-            link: function(e, t) {
+            link: function(e, t) { // function link(scope, element, attrs, controller) { ... }
                 function a(e) {
                     var t = n[e];
                     if (t) {
@@ -8663,12 +9019,12 @@ webpackJsonp([1], [function(e, exports, t) {
                         r < c && (i.scrollTop = c)
                     }
                 }
-                var n = e.allContacts
+                var n = e.allContacts  // 所有联系人
                   , i = t[0]
                   , o = n.length && n[0].type && "header" == n[0].type ? 1 : 0;
                 n.length - 1;
                 e.selectIndex = o,
-                e.$on("root:searchList:keyArrowUp", function() {
+                e.$on("root:searchList:keyArrowUp", function() {    // 响应键盘上键事件
                     var t = e.selectIndex;
                     do
                         --t;
@@ -8676,7 +9032,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     e.selectIndex = t,
                     a(t)
                 }),
-                e.$on("root:searchList:keyArrowDown", function() {
+                e.$on("root:searchList:keyArrowDown", function() { // 响应键盘下键事件
                     var t = n.length - 1
                       , i = e.selectIndex;
                     do
@@ -8685,7 +9041,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     e.selectIndex = i,
                     a(i)
                 }),
-                e.$on("root:searchList:keyEnter", function() {
+                e.$on("root:searchList:keyEnter", function() { // 响应键盘Enter事件
                     e.clickUserCallback(n[e.selectIndex])
                 })
             }
@@ -8694,14 +9050,27 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("navChatDirective", ["$timeout", "$log", "$document", "$stateParams", "$rootScope", "chatFactory", "accountFactory", "contactFactory", "appFactory", "confFactory", "utilFactory", "stateManageService", function(e, t, a, n, i, o, r, c, s, l, d, f) {
+    angular.module("Directives").directive("navChatDirective", [
+        "$timeout", // e
+        "$log", //  t
+        "$document", //  a
+        "$stateParams", //  n 
+        "$rootScope", // i 
+        "chatFactory", // o 
+        "accountFactory", // r 
+        "contactFactory", // c 
+        "appFactory", // s 
+        "confFactory", // l 
+        "utilFactory", // d
+        "stateManageService", //  f
+        function(e, t, a, n, i, o, r, c, s, l, d, f) {
         return {
             restrict: "EA",
             scope: !0,
             templateUrl: "navChat.html",
-            link: function(t, a, n) {
+            link: function(t, a, n) { // function link(scope, element, attrs, controller) { ... }
                 function r(e) {
-                    var a, n, r = t.chatList;
+                    var a, n, r = t.chatList;  // 聊天列表
                     if (f.canDo("navKeydown")) {
                         if (t.currentUserName)
                             a = s(r, t.currentUserName),
@@ -8755,11 +9124,11 @@ webpackJsonp([1], [function(e, exports, t) {
                     var o = n + a - e.clientHeight;
                     i < o && (e.scrollTop = o)
                 }
-                f.on("navChat:active", function(e) {
+                f.on("navChat:active", function(e) {  // stateManageService
                     e ? $(document).on("keydown", "body", r) : $(document).off("keydown", "body", r)
                 }),
-                e(function() {
-                    t.chatList = o.getChatList(),
+                e(function() { // $timeout
+                    t.chatList = o.getChatList(),  // scope
                     t.currentUserName = o.getCurrentUserName(),
                     t.$watch(function() {
                         return c.contactChangeFlag
@@ -8767,8 +9136,8 @@ webpackJsonp([1], [function(e, exports, t) {
                         o.getChatList()
                     })
                 }, 0),
-                i.$on("contact:settop", function() {
-                    o.getChatList()
+                i.$on("contact:settop", function() { // $rootScope
+                    o.getChatList()  // chatFactory
                 }),
                 t.$watch(function() {
                     return o.getCurrentUserName()
@@ -8798,7 +9167,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     }, 0)
                 }),
                 t.$on("app:chat:dblclick", function(e) {}),
-                t.$on("root:deleteChat", function(e, t) {
+                t.$on("root:deleteChat", function(e, t) { // 删除聊天
                     o.deleteChatList(t),
                     o.deleteChatMessage(t),
                     o.getCurrentUserName() == t && o.setCurrentUserName("")
@@ -8820,12 +9189,20 @@ webpackJsonp([1], [function(e, exports, t) {
     ])
 }
 , function(e, exports) {
-    angular.module("Directives").directive("navContactDirective", ["$rootScope", "$timeout", "$state", "contactFactory", "stateManageService", "confFactory", "utilFactory", function(e, t, a, n, i, o, r) {
+    angular.module("Directives").directive("navContactDirective", [
+        "$rootScope", // e
+        "$timeout",  // t
+        "$state", // a
+        "contactFactory",  // n
+        "stateManageService",  // i
+        "confFactory", // o
+        "utilFactory", // r
+        function(e, t, a, n, i, o, r) {
         return {
             restrict: "EA",
             scope: !0,
             templateUrl: "navContact.html",
-            link: function(c, s, l) {
+            link: function(c, s, l) {  // function link(scope, element, attrs, controller) { ... }
                 function d(t) {
                     if (i.canDo("navKeydown")) {
                         var a = c.allContacts
@@ -8896,7 +9273,7 @@ webpackJsonp([1], [function(e, exports, t) {
                     i < o && (e.scrollTop = o)
                 }
                 function u(e) {
-                    c.currentContact = n.getCurrentContact(),
+                    c.currentContact = n.getCurrentContact(), // 当前联系人
                     c.allContacts = n.pickContacts(["star", "chatroom", "friend"], {
                         friend: {
                             isWithoutStar: !0,
@@ -8908,16 +9285,16 @@ webpackJsonp([1], [function(e, exports, t) {
                     }).result
                 }
                 var m = "#navContact.J_ContactScrollBody";
-                i.on("navContact:active", function(e) {
+                i.on("navContact:active", function(e) {  // stateManageService
                     e ? $(document).on("keydown", "body", d) : $(document).off("keydown", "body", d)
                 }),
-                c.dblclick = function(e) {
-                    a.go("chat", {
+                c.dblclick = function(e) { // scope
+                    a.go("chat", {  // $state
                         userName: e.UserName
                     })
                 }
                 ,
-                t(function() {
+                t(function() {  // $timeout
                     c.$watch(function() {
                         return n.contactChangeFlag
                     }, function(e, t) {
