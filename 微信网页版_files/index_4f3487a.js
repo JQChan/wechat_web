@@ -1108,7 +1108,7 @@ webpackJsonp([1], [function(e, exports, t) {
                 return o
             }
             ,
-            e.showChatRoomMembers = function(t) {
+            e.showChatRoomMembers = function(t) { // 显示群组员面板
                 g.toggleOpen({
                     templateUrl: "chatRoomMember.html",
                     scope: e,
